@@ -26,7 +26,7 @@ An experimental loader for the [Bro Time Server](https://github.com/Bro-Time/Bro
 
 ### Other
 
-- [ ] This repository should be a valid npm package.
+- [x] This repository should be a valid npm package.
 - [ ] Any module should be able to start executing an initial plan.
 - [ ] A tutorial should be written on how to write a basic plan.
 - [ ] A tutorial should be written on how to write a contextual plan for an event.

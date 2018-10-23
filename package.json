@@ -2,12 +2,13 @@
   "name": "dynamic-loader",
   "version": "1.0.0",
   "description": "A dynamic loader for the Bro Time server.",
-  "main": "index.js",
+  "main": "lib/index.mjs",
   "engines": {
     "node": ">= 10.12.0"
   },
   "scripts": {
-    "test": "eslint . && mocha",
+    "test": "node --experimental-modules test/run.mjs",
+    "lint": "eslint .",
     "doc": "esdoc -c esdoc.json"
   },
   "repository": {
@@ -39,6 +40,6 @@
     "eslint-plugin-json": "^1.2.0",
     "eslint-plugin-no-for-each": "^0.1.14",
     "eslint-plugin-promise": "^3.8.0",
-    "mocha": "^4.1.0"
+    "jasmine": "^3.2.0"
   }
 }

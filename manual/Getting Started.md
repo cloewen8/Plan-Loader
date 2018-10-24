@@ -154,7 +154,22 @@ Hey!
 
 The resolver will:
 1. Add the `.mjs` extension to the path if an extension is not present.
-2. Import the plan if it exists relative to the parent plan's file.
+2. Import the plan if it exists relative to the parent plan's file (*see Relative Path Bug*).
 3. Attempt to import the plan directly.
 
 The default export will be used.
+
+#### Relative Path Bug
+Due to missing functionality in Node.js, relative paths to plans can not be resolved. This limitation is known and will be fixed at a later date.
+
+As a temporary fix, you can use the exported expandPath function with `import.meta.url`:
+```js
+import { expandPath } from "dynamic-loader";
+
+{
+	plans: [
+		expandPath(import.meta.url, "greetings/hello"),
+		expandPath(import.meta.url, "greetings/hey")
+	]
+}
+```

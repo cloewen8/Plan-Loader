@@ -1,5 +1,5 @@
 import jasmine from "./jasmine";
-import { resolve } from "../lib/index.mjs";
+import { resolve, expandPath } from "../lib/index.mjs";
 
 const { describe, it, expect } = jasmine.env;
 
@@ -12,10 +12,10 @@ describe("resolve", () => {
 		resolve("path").then(() => done.fail(), () => done());
 	});
 	it("imports external plans", async () => {
-		expect((await resolve("./externalPlan.mjs")).external).toBe(true);
+		expect((await resolve(expandPath(import.meta.url, "externalPlan.mjs"))).external).toBe(true);
 	});
 	it("must add the mjs extension if an extension is not present", async () => {
-		expect((await resolve("./externalPlan")).external).toBe(true);
+		expect((await resolve(expandPath(import.meta.url, "externalPlan"))).external).toBe(true);
 	});
 	it("throws for invalid plans property", (done) => {
 		resolve({ plans: Symbol() }).then(() => done.fail(), () => done());

@@ -5,7 +5,6 @@
 	"plugins": [
 		{ "name": "esdoc-coverage-plugin" },
 		{ "name": "esdoc-type-inference-plugin" },
-		{ "name": "esdoc-integrate-manual-plugin" },
 		{ "name": "esdoc-publish-markdown-plugin" },
 		{ "name": "esdoc-lint-plugin" },
 		{ "name": "esdoc-undocumented-identifier-plugin" }

@@ -5,10 +5,10 @@ An experimental loader for the [Bro Time Server](https://github.com/Bro-Time/Bro
 
 ### Standard loaders
 
-- [ ] Serial plans must execute in order (never at the same time).
-- [ ] Parellel plans must execute in parellel.
-- [ ] External plans must be imported (default export) and executed.
-- [ ] Plan actions must be executed.
+- [x] Serial plans must execute in order (never at the same time).
+- [x] Parellel plans must execute in parellel.
+- [x] External plans must be imported (default export) and executed.
+- [x] Plan actions must be executed.
 - [ ] Plan actions that require static resources (resources that are defined only once) must be supplied.
 
 ### Context loaders
@@ -21,13 +21,13 @@ An experimental loader for the [Bro Time Server](https://github.com/Bro-Time/Bro
 
 ### Testing
 
-- [ ] Test cases are to be written to confirm that all used plans are valid.
-- [ ] The execution of a plan must be made available externally.
+- [x] Test cases are to be written to confirm that all used plans are valid.
+- [x] The execution of a plan must be made available externally. - *Plans already expose their associated plans through an iterable. The plan resolver has been exported to go deeper into associated plans.*
 
 ### Other
 
 - [x] This repository should be a valid npm package.
-- [ ] Any module should be able to start executing an initial plan.
+- [x] Any module should be able to start executing an initial plan.
 - [ ] A tutorial should be written on how to write a basic plan.
 - [ ] A tutorial should be written on how to write a contextual plan for an event.
 - [ ] Documentation is to be written describing how to structure plans.

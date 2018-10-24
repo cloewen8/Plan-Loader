@@ -17,10 +17,13 @@ describe("resolve", () => {
 	it("must add the mjs extension if an extension is not present", async () => {
 		expect((await resolve("./externalPlan")).external).toBe(true);
 	});
-	it("throws for invalid plans", (done) => {
+	it("throws for invalid plans property", (done) => {
 		resolve({ plans: Symbol() }).then(() => done.fail(), () => done());
 	});
-	it("throws for invalid actions", (done) => {
+	it("throws for invalid execute property", (done) => {
 		resolve({ execute: Symbol() }).then(() => done.fail(), () => done());
 	});
+	it("throws for invalid serial property", (done) => {
+		resolve({ serial: Symbol() }).then(() => done.fail(), () => done());
+	})
 });

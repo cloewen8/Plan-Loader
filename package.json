@@ -1,6 +1,6 @@
 {
   "name": "dynamic-loader",
-  "version": "3.1.0",
+  "version": "3.2.0",
   "description": "A dynamic loader for the Bro Time server.",
   "main": "lib/index.mjs",
   "engines": {
@@ -43,6 +43,6 @@
     "jasmine": "^3.2.0"
   },
   "dependencies": {
-    "caller-id": "~0.1.0"
+    "caller": "~1.0.1"
   }
 }

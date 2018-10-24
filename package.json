@@ -1,6 +1,6 @@
 {
   "name": "dynamic-loader",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "description": "A dynamic loader for the Bro Time server.",
   "main": "lib/index.mjs",
   "engines": {
@@ -41,5 +41,8 @@
     "eslint-plugin-no-for-each": "^0.1.14",
     "eslint-plugin-promise": "^3.8.0",
     "jasmine": "^3.2.0"
+  },
+  "dependencies": {
+    "caller-id": "~0.1.0"
   }
 }

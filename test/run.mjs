@@ -4,5 +4,6 @@ import jasmine from "./jasmine";
 import "./resolveSpec";
 import "./executeSpec";
 import "./staticResourcesSpec";
+import "./dynamicResourcesSpec";
 
 jasmine.execute();

@@ -25,5 +25,5 @@ describe("resolve", () => {
 	});
 	it("throws for invalid serial property", (done) => {
 		resolve({ serial: Symbol() }).then(() => done.fail(), () => done());
-	})
+	});
 });

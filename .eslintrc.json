@@ -35,7 +35,6 @@
 		"promise/param-names": "error",
 		"promise/catch-or-return": "off",
 		"promise/no-promise-in-callback": "error",
-		"promise/no-callback-in-promise": "error",
 		"promise/no-new-statics": "error",
 		"promise/no-return-in-finally": "error",
 		"no-lonely-if": "error",

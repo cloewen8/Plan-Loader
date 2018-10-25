@@ -24,7 +24,7 @@ describe("execute", () => {
 		const plan = {
 			serial: true,
 			plans: []
-		}
+		};
 		for (let index = 0; index < 2; index++)
 			plan.plans[index] = { execute: async () => {
 				expect(running).toBe(0);
@@ -41,7 +41,7 @@ describe("execute", () => {
 		const plan = {
 			serial: false,
 			plans: []
-		}
+		};
 		for (let index = 0; index < 2; index++)
 			plan.plans[index] = { execute: async () => {
 				running++;
@@ -53,7 +53,7 @@ describe("execute", () => {
 			} };
 		execute(plan).then(() => {
 			expect(surpassedQuota).toBe(true);
-			done()
+			done();
 		}, (err) => done.fail(err));
 	});
 	it("must execute the plan first then associated plans", (done) => {

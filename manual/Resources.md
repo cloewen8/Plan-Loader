@@ -27,5 +27,23 @@ To use a set static resource, include it's key in an `include` array:
 Hello
 ```
 
-## Dynamic Resources (*coming soon*)
-Dynamic resources are included automatically by a contextual plan after static resources.
+## Dynamic Resources
+Dynamic resources are values passed to the executor. They are automatically passed to plans after static resources.
+```js
+execute({
+	execute: (name) => {
+		console.log(`Hello ${name}`);
+	},
+	plans: [
+		{
+			execute: (name) => {
+				console.log(`Bye ${name}`)
+			}
+		}
+	]
+}, "Bob")
+```
+```text
+Hello Bob
+Bye Bob
+```

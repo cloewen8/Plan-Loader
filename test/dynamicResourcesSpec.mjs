@@ -1,7 +1,7 @@
 import jasmine from "./jasmine";
 import { execute, setResource } from "../lib/index.mjs";
 
-const { describe, it, pending } = jasmine.env;
+const { describe, it, expect } = jasmine.env;
 
 describe("dynamic resources", () => {
 	describe("execute", () => {
@@ -57,5 +57,5 @@ describe("dynamic resources", () => {
 			}, 2);
 			done();
 		});
-	})
+	});
 });

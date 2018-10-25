@@ -1,6 +1,6 @@
 import jasmine from "./jasmine";
 import { promisify } from "util";
-import { execute } from "../lib/index.mjs";
+import { execute, mode } from "../lib/index.mjs";
 
 const { describe, it, expect } = jasmine.env;
 const nextTick = promisify(process.nextTick);
@@ -22,7 +22,7 @@ describe("execute", () => {
 	it("must execute plans serially", (done) => {
 		let running = 0;
 		const plan = {
-			serial: true,
+			mode: "Serial",
 			plans: []
 		};
 		for (let index = 0; index < 2; index++)
@@ -39,7 +39,7 @@ describe("execute", () => {
 		let running = 0;
 		let surpassedQuota = false;
 		const plan = {
-			serial: false,
+			mode: "Parallel",
 			plans: []
 		};
 		for (let index = 0; index < 2; index++)
@@ -66,5 +66,10 @@ describe("execute", () => {
 			else
 				done();
 		} ] }).then(() => done(), (err) => done.fail(err));
+	});
+	describe("mode", () => {
+		it("must be case-insensitive", () => {
+			expect(mode.Serial.is("serial")).toBe(true);
+		})
 	});
 });

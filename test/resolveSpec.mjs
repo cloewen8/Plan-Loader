@@ -23,7 +23,7 @@ describe("resolve", () => {
 	it("throws for invalid execute property", (done) => {
 		resolve({ execute: Symbol() }).then(() => done.fail(), () => done());
 	});
-	it("throws for invalid serial property", (done) => {
-		resolve({ serial: Symbol() }).then(() => done.fail(), () => done());
+	it("throws for invalid mode property", (done) => {
+		resolve({ mode: Symbol() }).then(() => done.fail(), () => done());
 	});
 });

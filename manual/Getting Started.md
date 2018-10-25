@@ -55,7 +55,7 @@ Hello!
 Hey!
 ```
 
-### Serial vs. Parallel
+### Serial vs. Parallel vs. Custom (`mode`)
 By default, plans execute in parallel. Meaning that if the first plan stops for any reason, the next plan will continue, and vise-versa. Meaning that the example above could have logged:
 ```text
 Hello World!
@@ -63,10 +63,11 @@ Hey!
 Hello!
 ```
 
+#### Serial Mode
 If plans rely on eachother (such as to share an object), you can set the parent plan to run `serial`ly. Meaning each plan must finish before the next plan executes.
 ```js
 {
-	serial: true,
+	mode: "Serial",
 	execute: () => {
 		console.log("Hello world!")
 	},
@@ -98,7 +99,7 @@ If setting the parent plan to be serial is not an option (too inefficient), you 
 	},
 	plans: [
 		{
-			serial: true,
+			mode: "Serial",
 			plans: [
 				{
 					execute: () => {
@@ -119,6 +120,34 @@ If setting the parent plan to be serial is not an option (too inefficient), you 
 Hello world!
 Hello!
 Hey!
+```
+
+#### Custom Mode
+You may also choose to execute associated plans yourself (or not at all).
+```js
+{
+	mode: "Custom",
+	execute: () => {
+		console.log("Hello world!")
+		execute(this.plans[0])
+	},
+	plans: [
+		{
+			execute: () => {
+				console.log("Hello!")
+			}
+		},
+		{
+			execute: () => {
+				console.log("Hey!")
+			}
+		}
+	]
+}
+```
+```text
+Hello world!
+Hello!
 ```
 
 ### External plans

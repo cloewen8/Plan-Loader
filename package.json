@@ -1,6 +1,6 @@
 {
   "name": "dynamic-loader",
-  "version": "3.5.0",
+  "version": "4.0.0",
   "description": "A dynamic loader for the Bro Time server.",
   "main": "lib/index.mjs",
   "engines": {
@@ -31,16 +31,22 @@
     "babel-eslint": "^10.0.1",
     "esdoc": "^1.1.0",
     "esdoc-coverage-plugin": "^1.1.0",
+    "esdoc-ecmascript-proposal-plugin": "^1.0.0",
+    "esdoc-exclude-source-plugin": "^1.0.0",
     "esdoc-integrate-manual-plugin": "^1.0.0",
     "esdoc-lint-plugin": "^1.0.2",
     "esdoc-node": "^1.0.3",
     "esdoc-publish-markdown-plugin": "^1.1.0",
     "esdoc-type-inference-plugin": "^1.0.2",
     "esdoc-undocumented-identifier-plugin": "^1.0.0",
+    "esdoc-unexported-identifier-plugin": "^1.0.0",
     "eslint": "^5.7.0",
     "eslint-plugin-json": "^1.2.0",
     "eslint-plugin-no-for-each": "^0.1.14",
     "eslint-plugin-promise": "^3.8.0",
     "jasmine": "^3.2.0"
+  },
+  "dependencies": {
+    "enum": "^2.5.0"
   }
 }

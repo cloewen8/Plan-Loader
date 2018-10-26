@@ -27,22 +27,25 @@ describe("resolve", () => {
 		resolve({ mode: Symbol() }).then(() => done.fail(), () => done());
 	});
 	it("throws for an invalid event property", (done) => {
-		resolve({ event: Symbol() }).then(() => done.fail(), () => done());
+		resolve({ event: Symbol(), plans: [] }).then(() => done.fail(), () => done());
 	});
 	it("throws for an invalid repeats property", (done) => {
-		resolve({ event: "event", repeats: Symbol() }).then(() => done.fail(), () => done());
+		resolve({ event: "event", plans: [], repeats: Symbol() }).then(() => done.fail(), () => done());
 	});
 	it("throws for an inexistant static emitter", (done) => {
-		resolve({ event: "event", emitter: "inexistant" }).then(() => done.fail(), () => done());
+		resolve({ event: "event", plans: [], emitter: "inexistant" }).then(() => done.fail(), () => done());
 	});
 	it("throws for an invalid static emitter", (done) => {
 		setResource("staticEmitter", Symbol());
-		resolve({ event: "event", emitter: "staticEmitter" }).then(() => done.fail(), () => done());
+		resolve({ event: "event", plans: [], emitter: "staticEmitter" }).then(() => done.fail(), () => done());
 	});
 	it("throws for an emitter without a once function", (done) => {
-		resolve({ event: "event", emitter: { on: () => {} } }).then(() => done.fail(), () => done());
+		resolve({ event: "event", plans: [], emitter: { on: () => {} } }).then(() => done.fail(), () => done());
 	});
 	it("throws for an emitter without an on function (when repeats is true)", (done) => {
-		resolve({ event: "event", repeats: true, emitter: { once: () => {} } }).then(() => done.fail(), () => done());
+		resolve({ event: "event", plans: [], repeats: true, emitter: { once: () => {} } }).then(() => done.fail(), () => done());
+	});
+	it("throws for a plan with an event and no associated plans", (done) => {
+		resolve({ event: "event" }).then(() => done.fail(), () => done());
 	});
 });

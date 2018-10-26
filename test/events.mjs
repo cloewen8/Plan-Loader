@@ -1,5 +1,6 @@
 import jasmine from "./jasmine";
-import { connectEvent, execute, setResource } from "../lib/index.mjs";
+import { execute, setResource } from "../lib/index.mjs";
+import { connectEvent } from "../lib/events";
 
 const { describe, it, expect } = jasmine.env;
 
@@ -95,10 +96,9 @@ describe("events", () => {
 		});
 	});
 	describe("execute", () => {
-		it("connects the event once.", () => {
+		it("connects the event once.", (done) => {
 			execute({
 				event: "name",
-				repeats: true,
 				emitter: { on: () => {
 					done.fail();
 				}, once: (eventName) => {
@@ -108,7 +108,7 @@ describe("events", () => {
 				plans: []
 			});
 		});
-		it("connects the event on.", () => {
+		it("connects the event on.", (done) => {
 			execute({
 				event: "name",
 				repeats: true,

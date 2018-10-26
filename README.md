@@ -10,12 +10,14 @@ An experimental loader for the [Bro Time Server](https://github.com/Bro-Time/Bro
 - [x] External plans must be imported (default export) and executed.
 - [x] Plan actions must be executed.
 - [x] Plan actions that require static resources (resources that are defined only once) must be supplied.
+- [ ] Plans must be able to handle errors, or throw errors to parent plans.
+- [ ] Plans must be able to expose metadata in their parent plan.
 
 ### Context loaders
 
-- [x] Contextual plans must be able to expose associated plans.
-- [ ] Plans that depend on an event should execute when the event is emitted.
-- [ ] Plans must be able to provide a custom context loader.
+- [x] Contextual plans must be able to expose associated plans. - *Use a plans array.*
+- [x] Plans that depend on an event should execute when the event is emitted.
+- [x] Plans must be able to provide a custom context loader. - *Use an execute function along with the exported `executePlans` function.*
 - [ ] Plans provided to a contextual plan must be able to provide multiple tags without needing to fully load the associated plan.
 - [x] Contextual plans must be able to provide associated resources (alongside static resources).
 

@@ -1,5 +1,5 @@
 import jasmine from "./jasmine";
-import { resolve, expandPath } from "../lib/index.mjs";
+import { resolve, expandPath, setResource } from "../lib/index.mjs";
 
 const { describe, it, expect } = jasmine.env;
 
@@ -25,5 +25,24 @@ describe("resolve", () => {
 	});
 	it("throws for invalid mode property", (done) => {
 		resolve({ mode: Symbol() }).then(() => done.fail(), () => done());
+	});
+	it("throws for an invalid event property", (done) => {
+		resolve({ event: Symbol() }).then(() => done.fail(), () => done());
+	});
+	it("throws for an invalid repeats property", (done) => {
+		resolve({ event: "event", repeats: Symbol() }).then(() => done.fail(), () => done());
+	});
+	it("throws for an inexistant static emitter", (done) => {
+		resolve({ event: "event", emitter: "inexistant" }).then(() => done.fail(), () => done());
+	});
+	it("throws for an invalid static emitter", (done) => {
+		setResource("staticEmitter", Symbol());
+		resolve({ event: "event", emitter: "staticEmitter" }).then(() => done.fail(), () => done());
+	});
+	it("throws for an emitter without a once function", (done) => {
+		resolve({ event: "event", emitter: { on: () => {} } }).then(() => done.fail(), () => done());
+	});
+	it("throws for an emitter without an on function (when repeats is true)", (done) => {
+		resolve({ event: "event", repeats: true, emitter: { once: () => {} } }).then(() => done.fail(), () => done());
 	});
 });

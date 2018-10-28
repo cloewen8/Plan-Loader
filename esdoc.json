@@ -1,12 +1,17 @@
 {
-	"source": ".",
+	"source": "./lib",
 	"destination": "./docs",
-	"excludes": ["^test[/\\\\]", "^node_modules[/\\\\]", "^docs[/\\\\]"],
 	"plugins": [
 		{ "name": "esdoc-coverage-plugin" },
 		{ "name": "esdoc-type-inference-plugin" },
 		{ "name": "esdoc-publish-markdown-plugin" },
 		{ "name": "esdoc-lint-plugin" },
-		{ "name": "esdoc-undocumented-identifier-plugin" }
+		{ "name": "esdoc-exclude-source-plugin" },
+		{ "name": "esdoc-undocumented-identifier-plugin" },
+		{ "name": "esdoc-unexported-identifier-plugin" },
+		{ "name": "esdoc-ecmascript-proposal-plugin", "option": {
+			"exportExtensions": true,
+			"dynamicImport": true
+		} }
 	]
 }

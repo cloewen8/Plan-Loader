@@ -1,6 +1,6 @@
 {
   "name": "dynamic-loader",
-  "version": "7.0.0",
+  "version": "8.0.0",
   "description": "A dynamic loader for the Bro Time server.",
   "main": "lib/index.mjs",
   "engines": {

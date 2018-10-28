@@ -26,6 +26,9 @@ describe("resolve", () => {
 	it("throws for invalid mode property", (done) => {
 		resolve({ mode: Symbol() }).then(() => done.fail(), () => done());
 	});
+	it("throws for an invalid handleError function", (done) => {
+		resolve({ handleError: Symbol() }).then(() => done.fail(), () => done());
+	});
 	it("throws for an invalid event property", (done) => {
 		resolve({ event: Symbol(), plans: [] }).then(() => done.fail(), () => done());
 	});

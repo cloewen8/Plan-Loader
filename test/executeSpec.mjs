@@ -1,15 +1,15 @@
-import jasmine from "./jasmine";
-import { promisify } from "util";
-import { execute, mode } from "../lib/index.mjs";
+import jasmine from './jasmine';
+import { promisify } from 'util';
+import { execute, mode } from '../lib/index.mjs';
 
 const { describe, it, expect } = jasmine.env;
 const nextTick = promisify(process.nextTick);
 
-describe("execute", () => {
-	it("should do nothing for empty plans", (done) => {
+describe('execute', () => {
+	it('should do nothing for empty plans', (done) => {
 		execute({}).then(done, done.fail);
 	});
-	it("must execute and await the plan", (done) => {
+	it('must execute and await the plan', (done) => {
 		let running = true;
 		execute({ execute: () => {
 			return Promise.resolve().then(() => running = false);
@@ -19,10 +19,10 @@ describe("execute", () => {
 		});
 		expect(running).toBe(true);
 	});
-	it("must execute plans serially", (done) => {
+	it('must execute plans serially', (done) => {
 		let running = 0;
 		const plan = {
-			mode: "Serial",
+			mode: 'Serial',
 			plans: []
 		};
 		for (let index = 0; index < 2; index++)
@@ -35,11 +35,11 @@ describe("execute", () => {
 			} };
 		execute(plan).then(() => done(), (err) => done.fail(err));
 	});
-	it("must execute plans in parallel", (done) => {
+	it('must execute plans in parallel', (done) => {
 		let running = 0;
 		let surpassedQuota = false;
 		const plan = {
-			mode: "Parallel",
+			mode: 'Parallel',
 			plans: []
 		};
 		for (let index = 0; index < 2; index++)
@@ -56,7 +56,7 @@ describe("execute", () => {
 			done();
 		}, (err) => done.fail(err));
 	});
-	it("must execute the plan first then associated plans", (done) => {
+	it('must execute the plan first then associated plans', (done) => {
 		let executeRan = false;
 		execute({ execute: () => {
 			executeRan = true;
@@ -67,9 +67,9 @@ describe("execute", () => {
 				done();
 		} ] }).then(() => done(), (err) => done.fail(err));
 	});
-	describe("mode", () => {
-		it("must be case-insensitive", () => {
-			expect(mode.Serial.is("serial")).toBe(true);
+	describe('mode', () => {
+		it('must be case-insensitive', () => {
+			expect(mode.Serial.is('serial')).toBe(true);
 		});
 	});
 });

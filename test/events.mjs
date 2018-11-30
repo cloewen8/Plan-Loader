@@ -1,38 +1,38 @@
-import jasmine from "./jasmine";
-import { execute, setResource } from "../lib/index.mjs";
-import { connectEvent } from "../lib/events";
+import jasmine from './jasmine';
+import { execute, setResource } from '../lib/index.mjs';
+import { connectEvent } from '../lib/events';
 
 const { describe, it, expect } = jasmine.env;
 
-describe("events", () => {
-	describe("connectEvent", () => {
-		it("calls an emitter's once function", (done) => {
+describe('events', () => {
+	describe('connectEvent', () => {
+		it('calls an emitter\'s once function', (done) => {
 			connectEvent({
-				event: "name",
+				event: 'name',
 				emitter: { on: () => {
 					done.fail();
 				}, once: (eventName) => {
-					expect(eventName).toBe("name");
+					expect(eventName).toBe('name');
 					done();
 				} }
 			});
 		});
-		it("calls an emitter's on function", (done) => {
+		it('calls an emitter\'s on function', (done) => {
 			connectEvent({
-				event: "name",
+				event: 'name',
 				repeats: true,
 				emitter: { on: (eventName) => {
-					expect(eventName).toBe("name");
+					expect(eventName).toBe('name');
 					done();
 				}, once: () => {
 					done.fail();
 				} }
 			});
 		});
-		it("allows emitters to execute a plan", (done) => {
+		it('allows emitters to execute a plan', (done) => {
 			let isDone = false;
 			connectEvent({
-				event: "name",
+				event: 'name',
 				emitter: {
 					once: async (_, action) => {
 						await action();
@@ -50,9 +50,9 @@ describe("events", () => {
 				]
 			});
 		});
-		it("connects to a static emitter", (done) => {
+		it('connects to a static emitter', (done) => {
 			let isDone = false;
-			setResource("staticEmitter", {
+			setResource('staticEmitter', {
 				once: async (_, action) => {
 					await action();
 					if (!isDone)
@@ -60,8 +60,8 @@ describe("events", () => {
 				}
 			});
 			connectEvent({
-				event: "name",
-				emitter: "staticEmitter",
+				event: 'name',
+				emitter: 'staticEmitter',
 				plans: [
 					{
 						execute: () => {
@@ -72,13 +72,13 @@ describe("events", () => {
 				]
 			});
 		});
-		it("allows emitters to pass arguments to a plan", (done) => {
+		it('allows emitters to pass arguments to a plan', (done) => {
 			let isDone = false;
 			connectEvent({
-				event: "name",
+				event: 'name',
 				emitter: {
 					once: async (_, action) => {
-						await action("apple");
+						await action('apple');
 						if (!isDone)
 							done.fail();
 					}
@@ -86,7 +86,7 @@ describe("events", () => {
 				plans: [
 					{
 						execute: (value) => {
-							expect(value).toBe("apple");
+							expect(value).toBe('apple');
 							isDone = true;
 							done();
 						}
@@ -95,25 +95,25 @@ describe("events", () => {
 			});
 		});
 	});
-	describe("execute", () => {
-		it("connects the event once.", (done) => {
+	describe('execute', () => {
+		it('connects the event once.', (done) => {
 			execute({
-				event: "name",
+				event: 'name',
 				emitter: { on: () => {
 					done.fail();
 				}, once: (eventName) => {
-					expect(eventName).toBe("name");
+					expect(eventName).toBe('name');
 					done();
 				} },
 				plans: []
 			});
 		});
-		it("connects the event on.", (done) => {
+		it('connects the event on.', (done) => {
 			execute({
-				event: "name",
+				event: 'name',
 				repeats: true,
 				emitter: { on: (eventName) => {
-					expect(eventName).toBe("name");
+					expect(eventName).toBe('name');
 					done();
 				}, once: () => {
 					done.fail();

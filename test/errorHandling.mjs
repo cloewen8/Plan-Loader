@@ -1,24 +1,24 @@
-import jasmine from "./jasmine";
-import { execute, handleError } from "../lib/index.mjs";
-import { EventEmitter } from "events";
+import jasmine from './jasmine';
+import { execute, handleError } from '../lib/index.mjs';
+import { EventEmitter } from 'events';
 
 const { describe, it } = jasmine.env;
 
-describe("error handling", () => {
-	describe("handleError", () => {
-		it("does not throw handled errors", (done) => {
+describe('error handling', () => {
+	describe('handleError', () => {
+		it('does not throw handled errors', (done) => {
 			handleError({ handleError: () => {} }, new Error())
 				.then(done, done.fail);
 		});
-		it("throws unhandled errors", (done) => {
+		it('throws unhandled errors', (done) => {
 			handleError({ handleError: (err) => {
 				throw err;
 			} }, new Error())
 				.then(done.fail, () => done());
 		});
 	});
-	describe("execute", () => {
-		it("handles a plan's errors", (done) => {
+	describe('execute', () => {
+		it('handles a plan\'s errors', (done) => {
 			let isDone = false;
 			execute({
 				execute: () => { throw new Error(); },
@@ -31,7 +31,7 @@ describe("error handling", () => {
 					done.fail();
 			});
 		});
-		it("handles associated plan errors", (done) => {
+		it('handles associated plan errors', (done) => {
 			let isDone = false;
 			execute({
 				plans: [
@@ -46,12 +46,12 @@ describe("error handling", () => {
 					done.fail();
 			});
 		});
-		it("handles event errors", (done) => {
+		it('handles event errors', (done) => {
 			const emitter = new EventEmitter();
 			execute({
-				event: "name",
+				event: 'name',
 				emitter: emitter,
-				mode: "Serial",
+				mode: 'Serial',
 				plans: [
 					{ execute: () => { throw new Error(); } },
 					{ execute: () => { done.fail(); } }
@@ -59,7 +59,7 @@ describe("error handling", () => {
 				handleError: () => {
 					done();
 				}
-			}).then(() => emitter.emit("name"));
+			}).then(() => emitter.emit('name'));
 		});
 	});
 });

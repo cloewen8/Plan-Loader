@@ -26,7 +26,7 @@
 		"keyword-spacing": "error",
 		"arrow-spacing": "error",
 		"comma-spacing": "error",
-		"quotes": ["error", "double"],
+		"quotes": ["error", "single"],
 		"semi": ["error", "always"],
 		"arrow-parens": ["error", "always"],
 		"no-for-each/no-for-each": "error",

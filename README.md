@@ -33,9 +33,9 @@ An experimental loader for the [Bro Time Server](https://github.com/Bro-Time/Bro
 - [x] Any module should be able to start executing an initial plan.
 - [x] A tutorial should be written on how to write a basic plan.
 - [x] A tutorial should be written on how to write a contextual plan for an event.
-- [ ] Documentation is to be written describing how to structure plans.
-- [ ] Documentation is to be written for major features.
-- [ ] Documentation for plan properties is to be written.
+- [x] Documentation is to be written describing how to structure plans.
+- [x] Documentation is to be written for major features.
+- [x] Documentation for plan properties is to be written.
 
 ## Out of scope
 

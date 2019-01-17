@@ -26,6 +26,12 @@ describe('resolve', () => {
 	it('throws for invalid mode property', (done) => {
 		resolve({ mode: Symbol() }).then(() => done.fail(), () => done());
 	});
+	it('throws for invalid include property', (done) => {
+		resolve({ include: Symbol() }).then(() => done.fail(), () => done());
+	});
+	it('throws for invalid meta property', (done) => {
+		resolve({ meta: Symbol() }).then(() => done.fail(), () => done());
+	});
 	it('throws for an invalid handleError function', (done) => {
 		resolve({ handleError: Symbol() }).then(() => done.fail(), () => done());
 	});

@@ -11,7 +11,7 @@ An experimental loader for the [Bro Time Server](https://github.com/Bro-Time/Bro
 - [x] Plan actions must be executed.
 - [x] Plan actions that require static resources (resources that are defined only once) must be supplied.
 - [x] Plans must be able to handle errors, or throw errors to parent plans.
-- [ ] Every error must have a documented code.
+- [x] Every error must have a documented code.
 - [x] Plans must be able to expose metadata in their parent plan.
 
 ### Context loaders

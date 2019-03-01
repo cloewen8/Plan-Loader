@@ -1,4 +1,4 @@
-import jasmine from './jasmine';
+import jasmine, { getRandString } from './jasmine';
 import { filterPlans } from '../lib/index.mjs';
 import { throwError } from '../lib/util.mjs';
 
@@ -46,11 +46,13 @@ describe('utility', () => {
 	});
 	describe('throwError', () => {
 		it('throws an error with the expected message and code', () => {
+			let message = getRandString(1, 10);
+			let code = getRandString(1, 10);
 			try {
-				throwError('some message', 'some code');
+				throwError(message, code);
 			} catch (err) {
-				expect(err.message).toBe('some message');
-				expect(err.code).toBe('some code');
+				expect(err.message).toBe(message);
+				expect(err.code).toBe(code);
 			}
 		});
 		it('does not include the throwError function in its stacktrace', () => {

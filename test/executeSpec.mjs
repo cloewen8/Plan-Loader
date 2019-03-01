@@ -70,6 +70,7 @@ describe('execute', () => {
 	describe('mode', () => {
 		it('must be case-insensitive', () => {
 			expect(mode.Serial.is('serial')).toBe(true);
+			expect(mode.Serial.is('Serial')).toBe(true);
 		});
 	});
 });

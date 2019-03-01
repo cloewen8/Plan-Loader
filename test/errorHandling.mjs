@@ -1,6 +1,7 @@
 import jasmine from './jasmine';
 import { execute, handleError } from '../lib/index.mjs';
 import { EventEmitter } from 'events';
+import { getRandString } from './jasmine.mjs';
 
 const { describe, it } = jasmine.env;
 
@@ -48,8 +49,9 @@ describe('error handling', () => {
 		});
 		it('handles event errors', (done) => {
 			const emitter = new EventEmitter();
+			let eventName = getRandString(1, 5);
 			execute({
-				event: 'name',
+				event: eventName,
 				emitter: emitter,
 				mode: 'Serial',
 				plans: [
@@ -59,7 +61,7 @@ describe('error handling', () => {
 				handleError: () => {
 					done();
 				}
-			}).then(() => emitter.emit('name'));
+			}).then(() => emitter.emit(eventName));
 		});
 	});
 });

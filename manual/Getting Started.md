@@ -1,11 +1,9 @@
 # Getting Started
 
-The dynamic loader includes 2 major facets:
-
-- Performing actions in a predefined order.
-- Performing actions in a predefined context (*coming soon*).
-
-Both of these facets are achieved using plans. A plan is an object which defines the action.
+The dynamic loader focuses on a single major concept, plans! A
+plan is an object which defines behaviors. A plan can be
+executed, list other plans to execute, accept resources,
+and more.
 
 To start executing a plan, call the exported `execute` function.
 ```js

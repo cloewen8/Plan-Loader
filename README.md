@@ -1,43 +1,6 @@
-# Dynamic Loader
-An experimental loader for the [Bro Time Server](https://github.com/Bro-Time/Bro-Time-Server). Based on the original [Dynamic Loader issue](https://github.com/Bro-Time/Bro-Time-Server/issues/562).
+# Dynamic-Loader
+A loader based on plans that chooses what, when, and in what order
+to load.
 
-## Requirements
-
-### Standard loaders
-
-- [x] Serial plans must execute in order (never at the same time).
-- [x] Parellel plans must execute in parellel.
-- [x] External plans must be imported (default export) and executed.
-- [x] Plan actions must be executed.
-- [x] Plan actions that require static resources (resources that are defined only once) must be supplied.
-- [x] Plans must be able to handle errors, or throw errors to parent plans.
-- [x] Every error must have a documented code.
-- [x] Plans must be able to expose metadata in their parent plan.
-
-### Context loaders
-
-- [x] Contextual plans must be able to expose associated plans. - *Use a plans array.*
-- [x] Plans that depend on an event should execute when the event is emitted.
-- [x] Plans must be able to provide a custom context loader. - *Use an execute function along with the exported `executePlans` function.*
-- [x] Plans provided to a contextual plan must be able to provide multiple tags without needing to fully load the associated plan.
-- [x] Contextual plans must be able to provide associated resources (alongside static resources).
-
-### Testing
-
-- [x] Test cases are to be written to confirm that all used plans are valid.
-- [x] The execution of a plan must be made available externally. - *Plans already expose their associated plans through an iterable. The plan resolver has been exported to go deeper into associated plans.*
-
-### Other
-
-- [x] This repository should be a valid npm package.
-- [x] Any module should be able to start executing an initial plan.
-- [x] A tutorial should be written on how to write a basic plan.
-- [x] A tutorial should be written on how to write a contextual plan for an event.
-- [x] Documentation is to be written describing how to structure plans.
-- [x] Documentation is to be written for major features.
-- [x] Documentation for plan properties is to be written.
-
-## Out of scope
-
-- Features from the server that are not required in the loader will not be reimplemented.
-- Integration with existing dependencies will not be tested.
+See the Getting Started manual or run `npm run doc` and the
+generated docs folder for more information.

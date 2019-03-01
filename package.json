@@ -7,7 +7,7 @@
     "node": ">= 10.12.0"
   },
   "scripts": {
-    "test": "node --experimental-modules test/run.mjs",
+    "test": "node --experimental-modules tests/run.mjs",
     "lint": "eslint --ext js,mjs .",
     "fix": "eslint --ext js,mjs --fix .",
     "doc": "esdoc -c esdoc.json"

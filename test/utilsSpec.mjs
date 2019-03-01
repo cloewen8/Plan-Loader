@@ -1,5 +1,6 @@
 import jasmine from './jasmine';
 import { filterPlans } from '../lib/index.mjs';
+import { throwError } from '../lib/util.mjs';
 
 const { describe, it, expect } = jasmine.env;
 
@@ -41,6 +42,23 @@ describe('utility', () => {
 				{ execute: () => {} }
 			], meta: [{  }] }, () => false ).next().value == null)
 				.toBe(true);
+		});
+	});
+	describe('throwError', () => {
+		it('throws an error with the expected message and code', () => {
+			try {
+				throwError('some message', 'some code');
+			} catch (err) {
+				expect(err.message).toBe('some message');
+				expect(err.code).toBe('some code');
+			}
+		});
+		it('does not include the throwError function in its stacktrace', () => {
+			try {
+				throwError('some message', 'some code');
+			} catch (err) {
+				expect(err.stack).not.toContain('throwError');
+			}
 		});
 	});
 });

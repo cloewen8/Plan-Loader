@@ -1,11 +1,11 @@
-The dynamic loader focuses on a single major concept, plans! A
+The plan loader focuses on a single major concept, plans! A
 plan is an object which defines behaviors. A plan can be
 executed, list other plans to execute, accept resources,
 and more.
 
 To start executing a plan, call the exported `execute` function.
 ```js
-import { execute } from "dynamic-loader"
+import { execute } from "plan-loader"
 
 execute({ execute: () => console.log("Hello world!") })
 ```
@@ -189,7 +189,7 @@ Due to missing functionality in Node.js, relative paths to plans can not be reso
 
 As a temporary fix, you can use the exported expandPath function with `import.meta.url`:
 ```js
-import { expandPath } from "dynamic-loader";
+import { expandPath } from "plan-loader";
 
 {
 	plans: [

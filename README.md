@@ -1,4 +1,4 @@
-# Dynamic-Loader
+# Plan-Loader
 A loader based on plans that chooses what, when, and in what order
 to load.
 

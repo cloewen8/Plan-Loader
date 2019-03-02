@@ -7,7 +7,7 @@ A static resource is any value that should exist for the entire duration of the 
 A static resource may be set by calling the exported `setResource` function.
 
 ```js
-import { setResource } from "dynamic-loader"
+import { setResource } from "plan-loader"
 
 setResource("greeting", "Hello")
 ```

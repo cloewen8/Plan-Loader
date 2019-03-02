@@ -18,7 +18,7 @@ Using the resolver manually should be used when:
 The `resolve`r is a function that is exported. It can be called with a plan (string or object). If the plan is invalid or can not be resolved, an error is thrown.
 
 ```js
-import { resolve } from "dynamic-loader"
+import { resolve } from "plan-loader"
 
 function log(plan, indent) {
 	resolve(plan).then((resolved) => {

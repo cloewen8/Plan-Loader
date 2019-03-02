@@ -1,5 +1,5 @@
 {
-  "name": "dynamic-loader",
+  "name": "plan-loader",
   "version": "8.3.3",
   "description": "A loader based on plans.",
   "main": "lib/index.mjs",
@@ -14,7 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Bro-Time/Bro-Time-Dynamic-Loader.git"
+    "url": "git+https://github.com/cloewen8/Plan-Loader.git"
   },
   "keywords": [
     "Bro",
@@ -24,9 +24,9 @@
   "author": "Bro Time",
   "license": "SEE LICENSE IN LICENSE.md",
   "bugs": {
-    "url": "https://github.com/Bro-Time/Bro-Time-Dynamic-Loader/issues"
+    "url": "https://github.com/cloewen8/Plan-Loader/issues"
   },
-  "homepage": "https://github.com/Bro-Time/Bro-Time-Dynamic-Loader#readme",
+  "homepage": "https://github.com/cloewen8/Plan-Loader#readme",
   "devDependencies": {
     "babel-eslint": "~10.0.1",
     "eslint": "~5.7.0",

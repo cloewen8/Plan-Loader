@@ -10,7 +10,7 @@
     "test": "node --experimental-modules tests/run.mjs",
     "lint": "eslint --ext js,mjs .",
     "fix": "eslint --ext js,mjs --fix .",
-    "doc": "esdoc -c esdoc.json"
+    "docs": "jsdoc -c jsdoc.json"
   },
   "repository": {
     "type": "git",

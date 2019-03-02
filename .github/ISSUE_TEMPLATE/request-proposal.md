@@ -2,7 +2,7 @@
 name: Request Proposal
 about: Pitch an idea
 title: Short, Captivating Title
-labels: enhancement
+labels: change
 assignees: ''
 
 ---

@@ -1,3 +1,7 @@
+/**
+ * @module Tests
+ */
+
 import Jasmine from 'jasmine';
 
 const jasmine = new Jasmine();
@@ -7,6 +11,7 @@ const jasmine = new Jasmine();
  * @param {?number} min The minimum number range.
  * @param {?number} max The maximum number range.
  * @returns {number}
+ * @package
  */
 export function getRandFloat(min = 0, max = 9) {
 	return min + Math.random()*(max - min);
@@ -17,6 +22,7 @@ export function getRandFloat(min = 0, max = 9) {
  * @param {?number} min The minimum number range.
  * @param {?number} max The maximum number range.
  * @returns {number}
+ * @package
  */
 export function getRandInt(min = 0, max = 9) {
 	return Math.floor(getRandFloat(min, max));
@@ -29,6 +35,7 @@ export function getRandInt(min = 0, max = 9) {
  * @param {?string} range The minimum and maximum character codepoints (e.g.
  * `az`).
  * @returns {string}
+ * @package
  */
 export function getRandString(min = 1, max = 1, range = ' ~') {
 	let startPoint = range.codePointAt(0);

@@ -1,4 +1,3 @@
-# The Resolver
 The resolver is used to locate and validate a plan.
 
 ## When to Use it

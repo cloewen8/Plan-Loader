@@ -1,4 +1,3 @@
-# Handling Errors
 Plans are able to throw and handle thrown errors using a `handleError` function.
 
 ## What is Captured

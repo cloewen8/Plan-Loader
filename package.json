@@ -10,7 +10,7 @@
     "test": "node --experimental-modules tests/run.mjs",
     "lint": "eslint --ext js,mjs .",
     "fix": "eslint --ext js,mjs --fix .",
-    "doc": "esdoc -c esdoc.json"
+    "docs": "jsdoc -c jsdoc.json"
   },
   "repository": {
     "type": "git",
@@ -29,17 +29,6 @@
   "homepage": "https://github.com/Bro-Time/Bro-Time-Dynamic-Loader#readme",
   "devDependencies": {
     "babel-eslint": "^10.0.1",
-    "esdoc": "^1.1.0",
-    "esdoc-coverage-plugin": "^1.1.0",
-    "esdoc-ecmascript-proposal-plugin": "^1.0.0",
-    "esdoc-exclude-source-plugin": "^1.0.0",
-    "esdoc-integrate-manual-plugin": "^1.0.0",
-    "esdoc-lint-plugin": "^1.0.2",
-    "esdoc-node": "^1.0.3",
-    "esdoc-publish-markdown-plugin": "^1.1.0",
-    "esdoc-type-inference-plugin": "^1.0.2",
-    "esdoc-undocumented-identifier-plugin": "^1.0.0",
-    "esdoc-unexported-identifier-plugin": "^1.0.0",
     "eslint": "^5.7.0",
     "eslint-plugin-json": "^1.2.0",
     "eslint-plugin-no-for-each": "^0.1.14",

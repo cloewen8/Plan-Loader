@@ -1,4 +1,3 @@
-# Resources
 Resources may be distributed to plans either statically, or dynamically.
 
 ## Static Resources

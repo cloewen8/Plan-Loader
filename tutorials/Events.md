@@ -1,4 +1,3 @@
-# Event Plans
 Plans may be executed when an event is emitted.
 
 ## Using an Event

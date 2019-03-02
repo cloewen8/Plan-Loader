@@ -1,0 +1,20 @@
+{
+	"GettingStarted": {
+		"title": "Getting Started",
+		"children": {
+			"Resources": {},
+			"Errors": {
+				"title": "Handling Errors"
+			}
+		}
+	},
+	"Events": {
+		"title": "Event Plans"
+	},
+	"Execution": {
+		"title": "Custom Execution"
+	},
+	"Resolver": {
+		"title": "The Resolver"
+	}
+}

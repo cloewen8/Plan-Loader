@@ -1,5 +1,3 @@
-# Getting Started
-
 The dynamic loader focuses on a single major concept, plans! A
 plan is an object which defines behaviors. A plan can be
 executed, list other plans to execute, accept resources,

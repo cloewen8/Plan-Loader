@@ -40,7 +40,6 @@
 		"promise/no-return-in-finally": "error",
 		"jsdoc/check-examples": "warn",
 		"jsdoc/check-param-names": "error",
-		"jsdoc/check-tag-names": "warn",
 		"jsdoc/check-types": "error",
 		"jsdoc/newline-after-description": "error",
 		"jsdoc/require-param-name": "error",

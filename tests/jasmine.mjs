@@ -8,6 +8,7 @@ const jasmine = new Jasmine();
 
 /**
  * Gets a random floating-point number.
+ *
  * @param {?number} min The minimum number range.
  * @param {?number} max The maximum number range.
  * @returns {number}
@@ -19,6 +20,7 @@ export function getRandFloat(min = 0, max = 9) {
 
 /**
  * Gets a random whole number.
+ *
  * @param {?number} min The minimum number range.
  * @param {?number} max The maximum number range.
  * @returns {number}
@@ -30,6 +32,7 @@ export function getRandInt(min = 0, max = 9) {
 
 /**
  * Creates a random string.
+ *
  * @param {?number} min The minimum string length.
  * @param {?number} max The maximum string length.
  * @param {?string} range The minimum and maximum character codepoints (e.g.

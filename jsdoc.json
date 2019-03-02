@@ -5,7 +5,7 @@
 		"includePattern": ".+\\.m?js(doc)?$"
 	},
 	"opts": {
-		"destination": "./docs/",
+		"destination": "docs/",
 		"recurse": true,
 		"tutorials": "tutorials/"
 	}

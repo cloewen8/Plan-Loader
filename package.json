@@ -1,6 +1,6 @@
 {
   "name": "dynamic-loader",
-  "version": "8.3.2",
+  "version": "8.3.3",
   "description": "A loader based on plans.",
   "main": "lib/index.mjs",
   "engines": {
@@ -8,8 +8,8 @@
   },
   "scripts": {
     "test": "node --experimental-modules tests/run.mjs",
-    "lint": "eslint --ext js,mjs .",
-    "fix": "eslint --ext js,mjs --fix .",
+    "lint": "eslint --ext js,mjs,jsdoc .",
+    "fix": "eslint --ext js,mjs,jsdoc --fix .",
     "docs": "jsdoc -c jsdoc.json"
   },
   "repository": {
@@ -28,15 +28,16 @@
   },
   "homepage": "https://github.com/Bro-Time/Bro-Time-Dynamic-Loader#readme",
   "devDependencies": {
-    "babel-eslint": "^10.0.1",
-    "eslint": "^5.7.0",
-    "eslint-plugin-jsdoc": "^4.1.1",
-    "eslint-plugin-json": "^1.2.0",
-    "eslint-plugin-no-for-each": "^0.1.14",
-    "eslint-plugin-promise": "^3.8.0",
-    "jasmine": "^3.2.0"
+    "babel-eslint": "~10.0.1",
+    "eslint": "~5.7.0",
+    "eslint-plugin-jsdoc": "~4.1.1",
+    "eslint-plugin-json": "~1.2.0",
+    "eslint-plugin-no-for-each": "~0.1.14",
+    "eslint-plugin-promise": "~3.8.0",
+    "jasmine": "~3.2.0",
+    "jsdoc": "~3.5.5"
   },
   "dependencies": {
-    "enum": "^2.5.0"
+    "enum": "~2.5.0"
   }
 }

@@ -1,4 +1,3 @@
-# Custom Execution
 Occasionally it may be desirable to take control of the execution process of plans. You may do so by setting the `mode` to `Custom` and executing the plans in the `execute` function.
 ```js
 {

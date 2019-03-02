@@ -12,7 +12,8 @@
 	"plugins": [
 		"json",
 		"promise",
-		"no-for-each"
+		"no-for-each",
+		"jsdoc"
 	],
 	"globals": {
 		"_": true
@@ -37,6 +38,16 @@
 		"promise/no-promise-in-callback": "error",
 		"promise/no-new-statics": "error",
 		"promise/no-return-in-finally": "error",
+		"jsdoc/check-examples": "warn",
+		"jsdoc/check-param-names": "error",
+		"jsdoc/check-tag-names": "warn",
+		"jsdoc/check-types": "error",
+		"jsdoc/newline-after-description": "error",
+		"jsdoc/require-param-name": "error",
+		"jsdoc/require-param-type": "error",
+		"jsdoc/require-param": "warn",
+		"jsdoc/require-returns-type": "error",
+		"jsdoc/require-returns-check": "error",
 		"no-lonely-if": "error",
 		"no-console": "off",
 		"no-var": "error"

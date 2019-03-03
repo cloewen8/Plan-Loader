@@ -1,0 +1,4 @@
+.github/
+.gitattributes
+.gitignore
+.travis.yml

@@ -1,14 +1,16 @@
 import jasmine from './jasmine';
 
 import { setup as setupTutorials, define as defineTutorials } from './tutorialsSpec';
-setupTutorials().then(async () => {
-	await import('./utilsSpec');
-	await import('./errorHandlingSpec');
-	await import('./resolveSpec');
-	await import('./executeSpec');
-	await import('./staticResourcesSpec');
-	await import('./dynamicResourcesSpec');
-	await import('./eventsSpec');
+Promise.all([
+	setupTutorials(),
+	import('./utilsSpec'),
+	import('./errorHandlingSpec'),
+	import('./resolveSpec'),
+	import('./executeSpec'),
+	import('./staticResourcesSpec'),
+	import('./dynamicResourcesSpec'),
+	import('./eventsSpec')
+]).then(() => {
 	defineTutorials();
 
 	jasmine.execute();

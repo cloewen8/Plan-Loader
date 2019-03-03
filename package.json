@@ -35,7 +35,8 @@
     "eslint-plugin-no-for-each": "~0.1.14",
     "eslint-plugin-promise": "~3.8.0",
     "jasmine": "~3.2.0",
-    "jsdoc": "~3.5.5"
+    "jsdoc": "~3.5.5",
+    "tmp": "0.0.33"
   },
   "dependencies": {
     "enum": "~2.5.0"

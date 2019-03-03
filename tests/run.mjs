@@ -1,11 +1,15 @@
 import jasmine from './jasmine';
 
-import './utilsSpec';
-import './errorHandling';
-import './resolveSpec';
-import './executeSpec';
-import './staticResourcesSpec';
-import './dynamicResourcesSpec';
-import './events';
+import { setup as setupTutorials, define as defineTutorials } from './tutorialsSpec';
+setupTutorials().then(async () => {
+	await import('./utilsSpec');
+	await import('./errorHandlingSpec');
+	await import('./resolveSpec');
+	await import('./executeSpec');
+	await import('./staticResourcesSpec');
+	await import('./dynamicResourcesSpec');
+	await import('./eventsSpec');
+	defineTutorials();
 
-jasmine.execute();
+	jasmine.execute();
+});

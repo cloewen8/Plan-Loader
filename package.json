@@ -1,6 +1,6 @@
 {
   "name": "plan-loader",
-  "version": "8.3.5",
+  "version": "8.3.6",
   "description": "A loader based on plans.",
   "main": "lib/index.mjs",
   "engines": {
@@ -17,11 +17,11 @@
     "url": "git+https://github.com/cloewen8/Plan-Loader.git"
   },
   "keywords": [
-    "Bro",
-    "Time",
-    "loader"
+    "loader",
+    "plan",
+    "starter"
   ],
-  "author": "Bro Time",
+  "author": "cloewen8",
   "license": "SEE LICENSE IN LICENSE.md",
   "bugs": {
     "url": "https://github.com/cloewen8/Plan-Loader/issues"

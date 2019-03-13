@@ -38,6 +38,7 @@ const TUTORIALS = `${process.cwd()}/tutorials/`;
  */
 const FILE_NAME = /([a-zA-Z0-9]+?)\.md$/;
 
+/** @todo Collect examples without output. */
 export async function setup() {
 	for (let file of readdirSync(TUTORIALS)) {
 		if (file.endsWith('.md')) {

@@ -1,6 +1,6 @@
 {
   "name": "plan-loader",
-  "version": "8.3.6",
+  "version": "8.3.7",
   "description": "A loader based on plans.",
   "main": "lib/index.mjs",
   "engines": {
@@ -10,7 +10,7 @@
     "test": "node --experimental-modules tests/run.mjs",
     "lint": "eslint --ext js,mjs,jsdoc .",
     "fix": "eslint --ext js,mjs,jsdoc --fix .",
-    "docs": "jsdoc -c jsdoc.json"
+    "docs": "npx jsdoc -c jsdoc.json"
   },
   "repository": {
     "type": "git",
@@ -30,7 +30,7 @@
   "devDependencies": {
     "babel-eslint": "~10.0.1",
     "eslint": "~5.7.0",
-    "eslint-plugin-jsdoc": "~4.1.1",
+    "eslint-plugin-jsdoc": "~4.4.0",
     "eslint-plugin-json": "~1.2.0",
     "eslint-plugin-no-for-each": "~0.1.14",
     "eslint-plugin-promise": "~3.8.0",

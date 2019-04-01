@@ -10,7 +10,7 @@
     "test": "node --experimental-modules tests/run.mjs",
     "lint": "eslint --ext js,mjs,jsdoc .",
     "fix": "eslint --ext js,mjs,jsdoc --fix .",
-    "docs": "npx jsdoc -c jsdoc.json"
+    "docs": "npx jsdoc -c jsdoc.json && start docs/tutorial-GettingStarted.html"
   },
   "repository": {
     "type": "git",

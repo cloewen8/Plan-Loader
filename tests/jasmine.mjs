@@ -7,6 +7,20 @@ import Jasmine from 'jasmine';
 const jasmine = new Jasmine();
 
 /**
+ * Adds a function that is called once the suite is finished.
+ *
+ * @param {function(runDetails: Jasmine.RunDetails): void} callback
+ * @package
+ */
+export function addExtraReport(callback) {
+	let old = jasmine.reporter.jasmineDone;
+	jasmine.reporter.jasmineDone = function(runDetails) {
+		old(runDetails);
+		callback(runDetails);
+	};
+}
+
+/**
  * Gets a random floating-point number.
  *
  * @param {?number} min The minimum number range.

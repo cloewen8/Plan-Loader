@@ -1,8 +1,9 @@
 import jasmine from './jasmine';
 
-import { setup as setupTutorials, define as defineTutorials } from './tutorialsSpec';
+import { gather as gatherExamples, define as defineDocs } from './examplesSpec';
 Promise.all([
-	setupTutorials(),
+	gatherExamples(`${process.cwd()}/`),
+	gatherExamples(`${process.cwd()}/tutorials/`),
 	import('./utilsSpec'),
 	import('./errorHandlingSpec'),
 	import('./resolveSpec'),
@@ -11,7 +12,7 @@ Promise.all([
 	import('./dynamicResourcesSpec'),
 	import('./eventsSpec')
 ]).then(() => {
-	defineTutorials();
+	defineDocs();
 
 	jasmine.execute();
 });

@@ -50,6 +50,8 @@ execute({
 ```
 ```text
 Hello World!
+Hello galaxy!
+Hello universe!
 ```
 
 **For more information, run `npm run docs`.**

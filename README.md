@@ -1,6 +1,13 @@
 # Plan-Loader
 A loader based on plans that chooses what, when, and in what order
-to load.
+to load. Allowing for **more flexibility** with a **standard design**.
+
+## Use Cases
+It can be difficult at times to know what to use a loader for. Here is a list of a few possible uses!
+
+- **Web server** - Individual sections of the website could be bound to separately using sub-plans.
+- **Task automation** - Tasks could be split into plans and executed in a customized order.
+- **Chat bot** - You can split commands into their own files and have them execute when an event is emitted.
 
 ## Getting Started
 The plan loader uses objects known as plans. A plan is a set of instructions on how to run the desired code.

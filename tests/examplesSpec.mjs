@@ -175,7 +175,7 @@ export function define() {
 						let tmp;
 						beforeAll(() => {
 							tmp = tmpFile({ dir: process.cwd(), prefix: 'test-', postfix: '.mjs' });
-							writeSync(tmp.fd, example.code);
+							writeSync(tmp.fd, `// ${file.path}: ${example.name}\n\n${example.code}`);
 							if (FS_MODES.S_IRUSR !== undefined) {
 								// Prevent tests from modifying the file.
 								chmodSync(joinPath(process.cwd(), tmp.name),

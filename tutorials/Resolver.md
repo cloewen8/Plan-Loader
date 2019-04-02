@@ -18,35 +18,35 @@ Using the resolver manually should be used when:
 The `resolve`r is a function that is exported. It can be called with a plan (string or object). If the plan is invalid or can not be resolved, an error is thrown.
 
 ```js
-import { resolve } from "plan-loader"
+import { resolve } from 'plan-loader'
 
 function log(plan, indent) {
 	resolve(plan).then((resolved) => {
 		console.log(indent + resolved.id)
 		if (resolved.plans != null) {
 			for (let subPlan of resolved.plans)
-				log(subPlan, indent + ".")
+				log(subPlan, indent + '.')
 		}
 	}, console.error)
 }
 
-log("mainPlan.mjs", "")
+log('mainPlan.mjs', '')
 ```
 In `mainPlan.mjs` (*plans do not need to contain an id property*):
 ```js
 export default {
-	id: "plan1",
+	id: 'plan1',
 	plans: [
 		{
-			id: "plan2",
+			id: 'plan2',
 			plans: [
 				{
-					id: "plan4"
+					id: 'plan4'
 				}
 			]
 		},
 		{
-			id: "plan3"
+			id: 'plan3'
 		},
 		{
 			plans: true

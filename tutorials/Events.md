@@ -3,13 +3,15 @@ Plans may be executed when an event is emitted.
 ## Using an Event
 In order to connect to an event, a plan must have the `event` name and `emitter`.
 ```js
-const emitter = new EventEmitter()
+import { execute } from 'plan-loader'
+import { EventEmitter } from 'events'
+const emitter = new EventEmitter();
 
-{
+execute({
 	execute: () => {
-		console.log("connected")
+		console.log('connected')
 	},
-	event: "custom",
+	event: 'custom',
 	emitter: emitter,
 	plans: [
 		{
@@ -18,14 +20,18 @@ const emitter = new EventEmitter()
 			}
 		}
 	]
-}
+})
 ```
 ```text
 connected
 ```
 After the plan is executed
 ```js
-emitter.emit("custom", 1)
+// From earlier...
+import { EventEmitter } from 'events'
+const emitter = new EventEmitter();
+
+emitter.emit('custom', 1)
 ```
 ```text
 recieved 1
@@ -40,12 +46,14 @@ recieved 1
 ## Static Event Emitters
 If the emitter is a key to a static resource, and the resource is a valid emitter, it will be connected to.
 ```js
+import { setResource, execute } from 'plan-loader'
+import { EventEmitter } from 'events'
 const emitter = new EventEmitter()
-setResource("staticEmitter", emitter)
+setResource('staticEmitter', emitter)
 
-{
-	event: "custom",
-	emitter: "staticEmitter",
+execute({
+	event: 'custom',
+	emitter: 'staticEmitter',
 	plans: [
 		{
 			execute: (arg) => {
@@ -53,9 +61,9 @@ setResource("staticEmitter", emitter)
 			}
 		}
 	]
-}
+})
 
-emitter.emit("custom", 1)
+emitter.emit('custom', 1)
 ```
 ```text
 recieved 1
@@ -64,10 +72,12 @@ recieved 1
 ## Repeating Events
 You may optionally set plans to `repeat` if an event may be emitted multiple times.
 ```js
+import { execute } from 'plan-loader'
+import { EventEmitter } from 'events'
 const emitter = new EventEmitter()
 
-{
-	event: "custom",
+execute({
+	event: 'custom',
 	emitter: emitter,
 	repeats: true,
 	plans: [
@@ -77,10 +87,10 @@ const emitter = new EventEmitter()
 			}
 		}
 	]
-}
+})
 
-emitter.emit("custom", 1)
-emitter.emit("custom", 2)
+emitter.emit('custom', 1)
+emitter.emit('custom', 2)
 ```
 ```text
 recieved 1

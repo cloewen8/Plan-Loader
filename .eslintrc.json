@@ -55,7 +55,9 @@
 	"overrides": [{
 		"files": ["*.md", "test-*.mjs"],
 		"rules": {
-			"no-unused-labels": "off"
+			"no-unused-labels": "off",
+			"semi": "off",
+			"no-var": "off"
 		}
 	}]
 }

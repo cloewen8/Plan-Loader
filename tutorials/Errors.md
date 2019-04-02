@@ -19,8 +19,8 @@ In order to handle an error, the plan needs to implement a `handleError` functio
 Something bad!
 ```
 
-## Propogation
-If an error is thrown from `handleError` or the function does not exist, it will be propogated to the parent plan. This allows for data to be attached to errors, multi-phase error handling, and worst-case-scenario error handling.
+## Propagation
+If an error is thrown from `handleError` or the function does not exist, it will be propagated to the parent plan. This allows for data to be attached to errors, multi-phase error handling, and worst-case-scenario error handling.
 ```js
 {
 	plans: [
@@ -42,7 +42,7 @@ Plans error: Oops!
 ```
 
 ## Event Plan Errors
-Errors thrown from plans executed using an event do not currently propogate past the parent plan. This is due to how the associated plans execute on a different stack.
+Errors thrown from plans executed using an event do not currently propagate past the parent plan. This is due to how the associated plans execute on a different stack.
 ```js
 const emitter = new EventEmitter()
 

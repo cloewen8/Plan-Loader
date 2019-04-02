@@ -1,10 +1,16 @@
 import jasmine, { addExtraReport } from './jasmine';
-import { readdirSync, writeSync, createReadStream } from 'fs';
+import { readdirSync, writeSync, chmodSync, constants as FS_MODES, createReadStream } from 'fs';
+import { join as joinPath } from 'path';
 import { createInterface as createLineReader } from 'readline';
 import tmp from 'tmp';
 import { exec } from 'child_process';
 import ESLint from 'eslint';
 
+const tmpFile = tmp.fileSync;
+const { describe, it, beforeAll, afterAll, expect, fail, xit } = jasmine.env;
+const { CLIEngine } = ESLint;
+
+let lintCLI = new CLIEngine();
 /**
  * If lint results are being reported.
  * @ignore
@@ -17,19 +23,20 @@ let reportingLint = false;
 let lintResults;
 
 /**
- * @typedef {object} Example
- * @property {string} name A name to identify the example.
- * @property {string} code The code portion.
- * @property {string} output The expected output.
- * @todo Add a line offset for linting results.
- * @ignore
- */
-
-/**
  * @typedef {object} File
  * @property {string} name The name of the file.
  * @property {string} path A full path to the file.
  * @property {Example[]} examples All examples.
+ * @ignore
+ */
+
+/**
+ * @typedef {object} Example
+ * @property {string} name A name to identify the example.
+ * @property {string} code The code portion.
+ * @property {number} codeOffset The line that the code starts on.
+ * @property {string} output The expected output.
+ * @todo Add a line offset for linting results.
  * @ignore
  */
 
@@ -40,15 +47,86 @@ let lintResults;
  */
 let files = [];
 
-const tmpFile = tmp.fileSync;
-const { describe, it, beforeAll, beforeEach, afterEach, expect, fail, xit } = jasmine.env;
-const { Linter, CLIEngine } = ESLint;
-
 /**
  * Matches an md file name (with only numbers and letters).
  * @ignore
  */
 const FILE_NAME = /([a-zA-Z0-9]+?)\.md$/;
+
+/**
+ * A generator that iterates through each line of a stream.
+ *
+ * @param {ReadStream} stream
+ * @ignore
+ */
+async function* genLines(stream) {
+	let num = 0;
+	for await (let line of createLineReader(stream))
+		yield { line: line, num: ++num };
+}
+
+async function getOutput(iter) {
+
+}
+
+/**
+ * Gets an example.
+ *
+ * @param {string} name A name for the example.
+ * @param {number} lineNumber The offset of the iterator.
+ * @param {AsyncIterableIterator<string>} iter The iterator.
+ * @ignore
+ */
+async function getExample(name, lineNumber, iter) {
+	let example = { name: name, code: [], codeOffset: lineNumber, output: null };
+	let line;
+	let end;
+	do {
+		line = await iter.next();
+		if (line.done)
+			throw new Error('Unable to locate the end of example!');
+		end = line.value.line.endsWith('```');
+		if (!end) {
+			example.code.push(line.value.line);
+		} else {
+			// Collect output.
+			try {
+				line = await iter.next();
+				//if (!line.done && line.value.line.startsWith('```text'))
+				//	example.output = getOutput(iter);
+			// eslint-disable-next-line no-empty
+			} catch (err) {
+				console.warn('Unable to get example output!');
+				console.warn(err.stack);
+			}
+		}
+	} while (!end);
+	example.code = example.code.join('\n');
+	return example;
+}
+
+/**
+ * Gets all examples from markdown.
+ *
+ * @param {ReadStream} stream The stream containing markdown source.
+ * @returns {File}
+ * @ignore
+ */
+async function getExamples(stream) {
+	let iter = genLines(stream);
+	let examples = [];
+	for await (let { line, num } of iter) {
+		if (line.startsWith('```js')) {
+			try {
+				examples.push(await getExample(`Example ${examples.length + 1}`, num, iter));
+			} catch (err) {
+				console.warn('Ignoring invalid examples file.');
+				console.warn(err.stack);
+			}
+		}
+	}
+	return examples;
+}
 
 /**
  * Gathers examples from files.
@@ -60,46 +138,11 @@ const FILE_NAME = /([a-zA-Z0-9]+?)\.md$/;
 export async function gather(folder) {
 	for (let filename of readdirSync(folder)) {
 		if (filename.endsWith('.md')) {
-			/** @type {Tutorial} */
-			let file = {
+			files.push({
 				name: filename.match(FILE_NAME)[1],
-				path: `${folder}/${filename}`,
-				examples: []
-			};
-			let collecting = [false, false];
-			/** @type {Example} */
-			let example = {};
-			for await (let line of createLineReader(createReadStream(folder + filename))) {
-				// Collect code.
-				if (collecting[0]) {
-					if (line.endsWith('```')) {
-						collecting[0] = false;
-					} else {
-						example.code += line + '\n';
-					}
-				// Collect output.
-				} else if (collecting[1]) {
-					if (line.endsWith('```')) {
-						collecting[1] = false;
-						// Store the example.
-						example.output = example.output.substring(0, example.output.length - 1);
-						example.name = `Example ${file.examples.length + 1}`;
-						file.examples.push(example);
-						example = {};
-					} else {
-						example.output += line + '\n';
-					}
-				// Start collecting code.
-				} else if (line.startsWith('```js')) {
-					collecting[0] = true;
-					example.code = '';
-				// Start collecting output (if code was collected).
-				} else if (example.code !== undefined && !collecting[0] && line.startsWith('```text')) {
-					collecting[1] = true;
-					example.output = '';
-				}
-			}
-			files.push(file);
+				path: joinPath(folder, filename),
+				examples: await getExamples(createReadStream(folder + filename))
+			});
 		}
 	}
 	if (!reportingLint) {
@@ -107,7 +150,7 @@ export async function gather(folder) {
 		addExtraReport(() => {
 			if (lintResults.length > 0) {
 				console.log('Linting failed!');
-				console.log(new CLIEngine().getFormatter()(lintResults));
+				console.log(lintCLI.getFormatter()(lintResults));
 			}
 		});
 	}
@@ -115,42 +158,52 @@ export async function gather(folder) {
 
 export function define() {
 	describe('documentation', () => {
-		let linter;
-		beforeAll(() => {
-			linter = new Linter();
+		beforeAll(async (done) => {
 			lintResults = [];
+			let fullName;
+			for (let name of (await import('../.eslintrc.json')).default.plugins) {
+				fullName = 'eslint-plugin-' + name;
+				lintCLI.addPlugin(fullName, (await import(fullName)).default);
+			}
+			done();
 		});
 
 		for (let file of files) {
-			describe(`${file.name} File`, () => {
+			describe(`${file.name} file`, () => {
 				for (let example of file.examples) {
 					describe(example.name, () => {
 						let tmp;
-						beforeEach(() => {
+						beforeAll(() => {
 							tmp = tmpFile({ dir: process.cwd(), prefix: 'test-', postfix: '.mjs' });
 							writeSync(tmp.fd, example.code);
+							if (FS_MODES.S_IRUSR !== undefined) {
+								// Prevent tests from modifying the file.
+								chmodSync(joinPath(process.cwd(), tmp.name),
+									FS_MODES.S_IRUSR);
+							}
 						});
 
 						it('is linted', () => {
-							let status = linter.verify(example.code, null, {
-								filename: `${file.name}.${example.name}`
-							});
-							if (status.some((result) => result.severity == 2)) {
-								let errors = status.filter((result) => result.severity == 2);
-								let warnings = status.filter((result) => result.severity == 1);
-								lintResults.push({
-									filePath: `${file.path}: ${example.name}`,
-									messages: status,
-									errorCount: errors.length,
-									warningCount: warnings.length,
-									fixableErrorCount: errors.filter((value) => value.fix != null),
-									fixableWarningCount: warnings.filter((value) => value.fix != null)
-								});
+							let output = lintCLI.executeOnText(example.code, file.path);
+							if (output.errorCount > 0) {
+								for (let result of output.results) {
+									// Include the example number for more context.
+									result.filePath = `${file.path}: ${example.name}`;
+									result.messages = result.messages.map((message) => {
+										message.line = message.line + example.codeOffset;
+										// Not sure if I can exclude this.
+										message.fix = null;
+										return message;
+									});
+									result.fixableErrorCount = 0;
+									result.fixableWarningCount = 0;
+									lintResults.push(result);
+								}
 								fail();
 							}
 						});
 
-						xit('does not throw', (done) => {
+						it('does not throw', (done) => {
 							let child = exec(`node --experimental-modules ${tmp.name}`);
 							child.on('close', () => {
 								done();
@@ -175,7 +228,7 @@ export function define() {
 							});
 						});
 
-						afterEach(() => {
+						afterAll(() => {
 							tmp.removeCallback();
 						});
 					});

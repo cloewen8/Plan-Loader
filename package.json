@@ -29,7 +29,7 @@
   "homepage": "https://github.com/cloewen8/Plan-Loader#readme",
   "devDependencies": {
     "babel-eslint": "~10.0.1",
-    "eslint": "~5.7.0",
+    "eslint": "~5.16.0",
     "eslint-plugin-jsdoc": "~4.4.0",
     "eslint-plugin-json": "~1.2.0",
     "eslint-plugin-no-for-each": "~0.1.14",

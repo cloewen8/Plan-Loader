@@ -51,5 +51,11 @@
 		"no-lonely-if": "error",
 		"no-console": "off",
 		"no-var": "error"
-	}
+	},
+	"overrides": [{
+		"files": ["*.md", "test-*.mjs"],
+		"rules": {
+			"no-unused-labels": "off"
+		}
+	}]
 }

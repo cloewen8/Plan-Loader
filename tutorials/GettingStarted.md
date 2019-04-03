@@ -126,7 +126,7 @@ import { execute } from 'plan-loader'
 
 execute({
 	mode: 'Custom',
-	execute: () => {
+	execute: function() {
 		console.log('Hello world!')
 		execute(this.plans[0])
 	},
@@ -151,17 +151,17 @@ Hello!
 
 ### External plans
 If a plan is a string, the plan resolver will automatically attempt to import the plan.
-```js
+``` js
 import { execute } from 'plan-loader'
 
 execute({
 	plans: [
-		'greetings/hello',
-		'greetings/hey'
+		'examples/greetings/hello',
+		'examples/greetings/hey'
 	]
 })
 ```
-In `grttings/hello.mjs`:
+In `examples/grttings/hello.mjs`:
 ```js
 export default {
 	execute: () => {
@@ -169,7 +169,7 @@ export default {
 	}
 }
 ```
-In `grttings/hey.mjs`:
+In `examples/grttings/hey.mjs`:
 ```js
 export default {
 	execute: () => {
@@ -177,6 +177,7 @@ export default {
 	}
 }
 ```
+
 ```text
 Hello!
 Hey!
@@ -198,8 +199,8 @@ import { execute, expandPath } from 'plan-loader'
 
 execute({
 	plans: [
-		expandPath(import.meta.url, 'greetings/hello'),
-		expandPath(import.meta.url, 'greetings/hey')
+		expandPath(import.meta.url, 'examples/greetings/hello'),
+		expandPath(import.meta.url, 'examples/greetings/hey')
 	]
 })
 ```

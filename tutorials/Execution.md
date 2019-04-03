@@ -4,7 +4,7 @@ import { execute, executePlans } from 'plan-loader'
 
 execute({
 	mode: 'Custom',
-	execute: () => {
+	execute: function() {
 		executePlans('Parallel', this.plans)
 	},
 	plans: [

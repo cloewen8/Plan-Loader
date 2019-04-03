@@ -18,7 +18,7 @@ Using the resolver manually should be used when:
 The `resolve`r is a function that is exported. It can be called with a plan (string or object). If the plan is invalid or can not be resolved, an error is thrown.
 
 ```js
-import { resolve } from 'plan-loader'
+import { resolve, expandPath } from 'plan-loader'
 
 function log(plan, indent) {
 	resolve(plan).then((resolved) => {
@@ -27,12 +27,12 @@ function log(plan, indent) {
 			for (let subPlan of resolved.plans)
 				log(subPlan, indent + '.')
 		}
-	}, console.error)
+	}, (err) => console.log('Error: ' + err.message))
 }
 
-log('mainPlan.mjs', '')
+log(expandPath(import.meta.url, 'examples/mainPlan.mjs'), '')
 ```
-In `mainPlan.mjs` (*plans do not need to contain an id property*):
+In `examples/mainPlan.mjs` (*plans do not need to contain an id property*):
 ```js
 export default {
 	id: 'plan1',
@@ -57,7 +57,7 @@ export default {
 ```text
 plan1
 .plan2
-..plan4
 .plan3
 Error: The plan's associated plans must be iterable.
+..plan4
 ```

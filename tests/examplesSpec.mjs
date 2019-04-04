@@ -3,11 +3,11 @@ import { readdirSync, writeSync, chmodSync, constants as FS_MODES, createReadStr
 import { join as joinPath } from 'path';
 import { createInterface as createLineReader } from 'readline';
 import tmp from 'tmp';
-import { exec } from 'child_process';
+import { exec, execSync } from 'child_process';
 import ESLint from 'eslint';
 
 const tmpFile = tmp.fileSync;
-const { describe, it, beforeAll, afterAll, expect, fail, xit } = jasmine.env;
+const { describe, it, beforeAll, afterAll, expect, fail } = jasmine.env;
 const { CLIEngine } = ESLint;
 
 let lintCLI = new CLIEngine();
@@ -31,12 +31,17 @@ let lintResults;
  */
 
 /**
+ * @typedef {object} ExampleMetadata
+ * @property {?boolean} ignore If the example should not be saved.
+ */
+
+/**
  * @typedef {object} Example
  * @property {string} name A name to identify the example.
  * @property {string} code The code portion.
  * @property {number} codeOffset The line that the code starts on.
  * @property {?string} output The expected output.
- * @property {?object} metadata 
+ * @property {?ExampleMetadata} metadata Additional information.
  * @todo Add a line offset for linting results.
  * @ignore
  */
@@ -76,7 +81,18 @@ async function* genLines(stream) {
 }
 
 async function getOutput(iter) {
-
+	let output = [];
+	let line;
+	let end;
+	do {
+		line = await iter.next();
+		if (line.done)
+			throw new Error('Unable to locate end of output!');
+		end = line.value.line.endsWith('```');
+		if (!end)
+			output.push(line.value.line);
+	} while (!end);
+	return output.join('\n');
 }
 
 /**
@@ -113,8 +129,9 @@ async function getExample(name, lineNumber, iter) {
 			// Collect output.
 			try {
 				line = await iter.next();
-				//if (!line.done && line.value.line.startsWith('```text'))
-				//	example.output = getOutput(iter);
+				if (!line.done && line.value.line.startsWith('```text')) {
+					example.output = await getOutput(iter);
+				}
 			// eslint-disable-next-line no-empty
 			} catch (err) {
 				console.warn('Unable to get example output!');
@@ -136,10 +153,13 @@ async function getExample(name, lineNumber, iter) {
 async function getExamples(stream) {
 	let iter = genLines(stream);
 	let examples = [];
+	let example;
 	for await (let { line, num } of iter) {
 		if (line.startsWith('```js')) {
 			try {
-				examples.push(await getExample(`Example ${examples.length + 1}`, num, iter));
+				example = await getExample(`Example ${examples.length + 1}`, num, iter);
+				if (!example.metadata.ignore)
+					examples.push(example);
 			} catch (err) {
 				console.warn('Ignoring invalid examples file.');
 				console.warn(err.stack);
@@ -237,17 +257,18 @@ export function define() {
 							});
 						});
 
-						xit('outputs the expected result', (done) => {
-							let child = exec(`node --experimental-modules ${tmp.name}`);
-							let result = '';
-							child.on('close', () => {
+						if (example.output != null) {
+							it('outputs the expected result', (done) => {
+								let result = execSync(`node --experimental-modules --no-warnings ${tmp.name}`);
+								if (result instanceof Buffer)
+									result = result.toString('utf8');
+								result = result.trim();
 								expect(result).toBe(example.output);
+								if (result === '')
+									console.log(example.code);
 								done();
 							});
-							child.stdout.on('data', (line) => {
-								result += line + '\n';
-							});
-						});
+						}
 
 						afterAll(() => {
 							tmp.removeCallback();

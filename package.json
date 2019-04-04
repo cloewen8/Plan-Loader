@@ -1,6 +1,6 @@
 {
   "name": "plan-loader",
-  "version": "8.5.0",
+  "version": "8.6.0",
   "description": "A loader based on plans.",
   "main": "lib/index.mjs",
   "engines": {

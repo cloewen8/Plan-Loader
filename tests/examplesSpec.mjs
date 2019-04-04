@@ -35,7 +35,8 @@ let lintResults;
  * @property {string} name A name to identify the example.
  * @property {string} code The code portion.
  * @property {number} codeOffset The line that the code starts on.
- * @property {string} output The expected output.
+ * @property {?string} output The expected output.
+ * @property {?object} metadata 
  * @todo Add a line offset for linting results.
  * @ignore
  */
@@ -52,17 +53,26 @@ let files = [];
  * @ignore
  */
 const FILE_NAME = /([a-zA-Z0-9]+?)\.md$/;
+const METADATA = /<!--(.+)-->/;
 
 /**
  * A generator that iterates through each line of a stream.
+ *
+ * If next returns `true`, the previous line will be yielded.
  *
  * @param {ReadStream} stream
  * @ignore
  */
 async function* genLines(stream) {
+	let getLast;
 	let num = 0;
-	for await (let line of createLineReader(stream))
-		yield { line: line, num: ++num };
+	let lastLine = '';
+	for await (let line of createLineReader(stream)) {
+		getLast = yield { line: line, num: ++num };
+		if (getLast)
+			yield lastLine;
+		lastLine = line;
+	}
 }
 
 async function getOutput(iter) {
@@ -78,9 +88,20 @@ async function getOutput(iter) {
  * @ignore
  */
 async function getExample(name, lineNumber, iter) {
-	let example = { name: name, code: [], codeOffset: lineNumber, output: null };
+	let example = { name: name, code: [], codeOffset: lineNumber, output: null, metadata: {} };
 	let line;
 	let end;
+
+	let metadata = await iter.next(true);
+	try {
+		metadata = METADATA.exec(metadata.value);
+		if (metadata != null)
+			example.metadata = JSON.parse(metadata[1]);
+	} catch (err) {
+		console.warn('Ignoring invalid example metadata!');
+		console.warn(err.stack);
+	}
+
 	do {
 		line = await iter.next();
 		if (line.done)

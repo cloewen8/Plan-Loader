@@ -15,7 +15,10 @@ setResource('greeting', 'Hello')
 ### Including Static Resources
 To use a set static resource, include it's key in an `include` array:
 ```js
-import { execute } from 'plan-loader'
+import { setResource, execute } from 'plan-loader'
+
+// From earlier...
+setResource('greeting', 'Hello')
 
 execute({
 	include: ['greeting'],

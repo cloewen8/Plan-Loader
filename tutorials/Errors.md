@@ -31,7 +31,7 @@ execute({
 		{
 			execute: () => { throw new Error('Oops!') },
 			handleError: (err) => {
-				err.message += 'Plans error: '
+				err.message = 'Plans error: ' + err.message
 				throw err
 			}
 		}

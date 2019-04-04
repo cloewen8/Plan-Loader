@@ -20,17 +20,24 @@ The `resolve`r is a function that is exported. It can be called with a plan (str
 ```js
 import { resolve, expandPath } from 'plan-loader'
 
-function log(plan, indent) {
-	resolve(plan).then((resolved) => {
-		console.log(indent + resolved.id)
-		if (resolved.plans != null) {
-			for (let subPlan of resolved.plans)
-				log(subPlan, indent + '.')
-		}
-	}, (err) => console.log('Error: ' + err.message))
+async function log(plan, indent) {
+	let resolved = await resolve(plan)
+	console.log(indent + resolved.id)
+	if (resolved.plans != null) {
+		for (let subPlan of resolved.plans)
+			await log(subPlan, indent + '.')
+	}
 }
 
-log(expandPath(import.meta.url, 'examples/mainPlan.mjs'), '')
+log(expandPath(import.meta.url, 'examples/mainPlan.mjs'), '').catch((err) =>
+	console.log('Error: ' + err.message))
+```
+```text
+plan1
+.plan2
+..plan4
+.plan3
+Error: The plan's associated plans must be iterable.
 ```
 In `examples/mainPlan.mjs` (*plans do not need to contain an id property*):
 ```js
@@ -53,11 +60,4 @@ export default {
 		}
 	]
 }
-```
-```text
-plan1
-.plan2
-.plan3
-Error: The plan's associated plans must be iterable.
-..plan4
 ```

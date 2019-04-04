@@ -16,7 +16,7 @@ execute({
 })
 ```
 ```text
-Hello World!
+Hello world!
 ```
 
 A plan may also contain other `plans` to execute afterwards.
@@ -43,7 +43,7 @@ execute({
 })
 ```
 ```text
-Hello World!
+Hello world!
 Hello!
 Hey!
 ```
@@ -151,7 +151,9 @@ Hello!
 
 ### External plans
 If a plan is a string, the plan resolver will automatically attempt to import the plan.
-``` js
+<!-- Ignored due to a bug with plan resolution. See, Relative Path Bug. -->
+<!-- { "ignore": true } -->
+```js
 import { execute } from 'plan-loader'
 
 execute({

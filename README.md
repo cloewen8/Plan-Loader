@@ -23,7 +23,7 @@ execute({
 })
 ```
 ```text
-Hello World!
+Hello world!
 ```
 
 A plan can also point to other plans to cover an entire project's loading needs!
@@ -49,7 +49,7 @@ execute({
 })
 ```
 ```text
-Hello World!
+Hello world!
 Hello galaxy!
 Hello universe!
 ```

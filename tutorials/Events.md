@@ -26,6 +26,7 @@ execute({
 connected
 ```
 After the plan is executed
+<!-- { "ignore": true } -->
 ```js
 // From earlier...
 import { EventEmitter } from 'events'
@@ -61,9 +62,9 @@ execute({
 			}
 		}
 	]
+}).then(() => {
+	emitter.emit('custom', 1)
 })
-
-emitter.emit('custom', 1)
 ```
 ```text
 recieved 1
@@ -71,6 +72,7 @@ recieved 1
 
 ## Repeating Events
 You may optionally set plans to `repeat` if an event may be emitted multiple times.
+
 ```js
 import { execute } from 'plan-loader'
 import { EventEmitter } from 'events'
@@ -87,10 +89,10 @@ execute({
 			}
 		}
 	]
+}).then(() => {
+	emitter.emit('custom', 1)
+	emitter.emit('custom', 2)
 })
-
-emitter.emit('custom', 1)
-emitter.emit('custom', 2)
 ```
 ```text
 recieved 1

@@ -33,6 +33,9 @@ let lintResults;
 /**
  * @typedef {object} ExampleMetadata
  * @property {?boolean} ignore If the example should not be saved.
+ * @property {?Object.<string, string[]|true>} import Modules that are to be imported.
+ * The key is the name of the module, and the value is an array of named exports.
+ * If the value is `true`, everything from the module is imported.
  * @example
  * <!-- { "ignore": true } -->
  * ```js
@@ -44,6 +47,7 @@ let lintResults;
  * @typedef {object} Example
  * @property {string} name A name to identify the example.
  * @property {string} code The code portion.
+ * @property {string} prepend Code to prepend while testing.
  * @property {number} codeOffset The line that the code starts on.
  * @property {?string} output The expected output.
  * @property {?ExampleMetadata} metadata Additional information.
@@ -101,26 +105,86 @@ async function getOutput(iter) {
 }
 
 /**
+ * Validates the metadata.
+ *
+ * @param {ExampleMetadata} metadata
+ * @throws If `ignore` is not a boolean.
+ * @throws If `import` is not an object.
+ * @throws If an `import` key is not a string.
+ * @throws If an `import` value is not `true` or an array.
+ * @throws If an `import` value name is not a string.
+ * @ignore
+ */
+function validateMetadata(metadata) {
+	if (metadata.ignore !== undefined && typeof metadata.ignore !== 'boolean')
+		throw new Error('ignore must be a boolean!');
+	if (metadata.import !== undefined) {
+		if (typeof metadata.import !== 'object')
+			throw new Error('import must be an object!');
+		for (let [ name, exports ] of Object.entries(metadata.import)) {
+			if (typeof name !== 'string')
+				throw new Error('import keys must be strings!');
+			if (exports !== true) {
+				if (typeof exports !== 'object') {
+					throw new Error('import value must be a named export string!');
+				} else {
+					for (let exp of Object.values(exports))
+						if (typeof exp !== 'string')
+							throw new Error('import value names must be a string!');
+				}
+			}
+		}
+	}
+}
+
+/**
+ * Parses the metadata into the example.
+ *
+ * @param {ExampleMetadata} metadata
+ * @param {Example} example
+ * @ignore
+ */
+function parseMetadata(metadata, example) {
+	let prependLines = [];
+	// Construct imports.
+	if (metadata.import !== undefined) {
+		for (let [ module, names ] of Object.entries(metadata.import)) {
+			let imports = names === true ? '*' : `{ ${names.join(', ')} }`;
+			prependLines.push(`import ${imports} from '${module}'`);
+		}
+	}
+	example.prepend = prependLines.join('\n') + '\n\n';
+}
+
+/**
  * Gets an example.
  *
  * @param {string} name A name for the example.
+ * @param {string} path The file containing the example.
  * @param {number} lineNumber The offset of the iterator.
  * @param {AsyncIterableIterator<string>} iter The iterator.
  * @ignore
  */
-async function getExample(name, lineNumber, iter) {
-	let example = { name: name, code: [], codeOffset: lineNumber, output: null, metadata: {} };
+async function getExample(name, path, lineNumber, iter) {
+	/** @type {Example} */
+	let example = { name: name, code: [], prepend: '', codeOffset: lineNumber, output: null, metadata: null };
 	let line;
 	let end;
 
 	let metadata = await iter.next(true);
 	try {
 		metadata = METADATA.exec(metadata.value);
-		if (metadata != null)
+		if (metadata != null) {
 			example.metadata = JSON.parse(metadata[1]);
+			validateMetadata(example.metadata);
+			parseMetadata(example.metadata, example);
+		}
 	} catch (err) {
-		console.warn('Ignoring invalid example metadata!');
+		console.warn(`Ignoring invalid metadata (${path}: ${name})!`);
 		console.warn(err.stack);
+	} finally {
+		if (example.metadata === null)
+			example.metadata = {};
 	}
 
 	do {
@@ -152,17 +216,18 @@ async function getExample(name, lineNumber, iter) {
  * Gets all examples from markdown.
  *
  * @param {ReadStream} stream The stream containing markdown source.
+ * @param {string} path The file containing the markdown.
  * @returns {File}
  * @ignore
  */
-async function getExamples(stream) {
+async function getExamples(stream, path) {
 	let iter = genLines(stream);
 	let examples = [];
 	let example;
 	for await (let { line, num } of iter) {
 		if (line.startsWith('```js')) {
 			try {
-				example = await getExample(`Example ${examples.length + 1}`, num, iter);
+				example = await getExample(`Example ${examples.length + 1}`, path, num, iter);
 				if (!example.metadata.ignore)
 					examples.push(example);
 			} catch (err) {
@@ -182,12 +247,14 @@ async function getExamples(stream) {
  * @ignore
  */
 export async function gather(folder) {
+	let path;
 	for (let filename of readdirSync(folder)) {
 		if (filename.endsWith('.md')) {
+			path = joinPath(folder, filename);
 			files.push({
 				name: filename.match(FILE_NAME)[1],
-				path: joinPath(folder, filename),
-				examples: await getExamples(createReadStream(folder + filename))
+				path: path,
+				examples: await getExamples(createReadStream(folder + filename), path)
 			});
 		}
 	}
@@ -221,7 +288,7 @@ export function define() {
 						let tmp;
 						beforeAll(() => {
 							tmp = tmpFile({ dir: process.cwd(), prefix: 'test-', postfix: '.mjs' });
-							writeSync(tmp.fd, `// ${file.path}: ${example.name}\n\n${example.code}`);
+							writeSync(tmp.fd, `// ${file.path}: ${example.name}\n\n${example.prepend}${example.code}`);
 							if (FS_MODES.S_IRUSR !== undefined) {
 								// Prevent tests from modifying the file.
 								chmodSync(joinPath(process.cwd(), tmp.name),
@@ -230,7 +297,7 @@ export function define() {
 						});
 
 						it('is linted', () => {
-							let output = lintCLI.executeOnText(example.code, file.path);
+							let output = lintCLI.executeOnText(example.prepend + example.code, file.path);
 							if (output.errorCount > 0) {
 								for (let result of output.results) {
 									// Include the example number for more context.
@@ -269,8 +336,6 @@ export function define() {
 									result = result.toString('utf8');
 								result = result.trim();
 								expect(result).toBe(example.output);
-								if (result === '')
-									console.log(example.code);
 								done();
 							});
 						}

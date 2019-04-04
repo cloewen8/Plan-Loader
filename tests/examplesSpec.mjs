@@ -33,6 +33,11 @@ let lintResults;
 /**
  * @typedef {object} ExampleMetadata
  * @property {?boolean} ignore If the example should not be saved.
+ * @example
+ * <!-- { "ignore": true } -->
+ * ```js
+ * ```
+ * @ignore
  */
 
 /**

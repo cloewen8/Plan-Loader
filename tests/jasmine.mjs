@@ -7,9 +7,14 @@ import Jasmine from 'jasmine';
 const jasmine = new Jasmine();
 
 /**
+ * @callback ReportCallback
+ * @param {Jasmine.RunDetails} runDetails
+ */
+
+/**
  * Adds a function that is called once the suite is finished.
  *
- * @param {function(runDetails: Jasmine.RunDetails): void} callback
+ * @param {ReportCallback} callback
  * @package
  */
 export function addExtraReport(callback) {

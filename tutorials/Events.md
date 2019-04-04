@@ -2,9 +2,8 @@ Plans may be executed when an event is emitted.
 
 ## Using an Event
 In order to connect to an event, a plan must have the `event` name and `emitter`.
+<!-- { "import": { "plan-loader": ["execute"], "events": ["EventEmitter"] } } -->
 ```js
-import { execute } from 'plan-loader'
-import { EventEmitter } from 'events'
 const emitter = new EventEmitter();
 
 execute({
@@ -29,7 +28,6 @@ After the plan is executed
 <!-- { "ignore": true } -->
 ```js
 // From earlier...
-import { EventEmitter } from 'events'
 const emitter = new EventEmitter();
 
 emitter.emit('custom', 1)
@@ -46,9 +44,8 @@ recieved 1
 
 ## Static Event Emitters
 If the emitter is a key to a static resource, and the resource is a valid emitter, it will be connected to.
+<!-- { "import": { "plan-loader": ["setResource", "execute"], "events": ["EventEmitter"] } } -->
 ```js
-import { setResource, execute } from 'plan-loader'
-import { EventEmitter } from 'events'
 const emitter = new EventEmitter()
 setResource('staticEmitter', emitter)
 
@@ -72,10 +69,8 @@ recieved 1
 
 ## Repeating Events
 You may optionally set plans to `repeat` if an event may be emitted multiple times.
-
+<!-- { "import": { "plan-loader": ["execute"], "events": ["EventEmitter"] } } -->
 ```js
-import { execute } from 'plan-loader'
-import { EventEmitter } from 'events'
 const emitter = new EventEmitter()
 
 execute({

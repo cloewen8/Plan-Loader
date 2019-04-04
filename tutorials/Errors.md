@@ -5,9 +5,8 @@ Only errors thrown while executing a plan are captured. Plan validation and inte
 
 ## Handling Errors
 In order to handle an error, the plan needs to implement a `handleError` function.
+<!-- { "import": { "plan-loader": ["execute"] } } -->
 ```js
-import { execute } from 'plan-loader'
-
 execute({
 	execute: () => {
 		throw new Error('Something bad!')
@@ -23,9 +22,8 @@ Something bad!
 
 ## Propagation
 If an error is thrown from `handleError` or the function does not exist, it will be propagated to the parent plan. This allows for data to be attached to errors, multi-phase error handling, and worst-case-scenario error handling.
+<!-- { "import": { "plan-loader": ["execute"] } } -->
 ```js
-import { execute } from 'plan-loader'
-
 execute({
 	plans: [
 		{
@@ -47,9 +45,8 @@ Plans error: Oops!
 
 ## Event Plan Errors
 Errors thrown from plans executed using an event do not currently propagate past the parent plan. This is due to how the associated plans execute on a different stack.
+<!-- { "import": { "plan-loader": ["execute"], "events": ["EventEmitter"] } } -->
 ```js
-import { execute } from 'plan-loader'
-import { EventEmitter } from 'events'
 const emitter = new EventEmitter()
 
 execute({

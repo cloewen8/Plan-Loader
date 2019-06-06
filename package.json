@@ -8,7 +8,7 @@
   },
   "scripts": {
     "test": "node --experimental-modules tests/run.mjs",
-    "postinstall": "node node_modules\\allow-require-me\\allow-require-me.js add",
+    "postinstall": "node node_modules/allow-require-me/allow-require-me.js add",
     "lint": "eslint --ext js,mjs,jsdoc .",
     "fix": "eslint --ext js,mjs,jsdoc --fix .",
     "docs": "npx jsdoc -c jsdoc.json && start docs/tutorial-GettingStarted.html"

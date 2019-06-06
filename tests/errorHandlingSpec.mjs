@@ -1,4 +1,4 @@
-import jasmine from './jasmine';
+import jasmine from './jasmine.mjs';
 import { execute, handleError } from '../lib/index.mjs';
 import { EventEmitter } from 'events';
 import { getRandString } from './jasmine.mjs';

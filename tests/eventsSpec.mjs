@@ -1,6 +1,6 @@
-import jasmine, { getRandString } from './jasmine';
+import jasmine, { getRandString } from './jasmine.mjs';
 import { execute, setResource } from '../lib/index.mjs';
-import { connectEvent } from '../lib/events';
+import { connectEvent } from '../lib/events.mjs';
 
 const { describe, it, expect } = jasmine.env;
 

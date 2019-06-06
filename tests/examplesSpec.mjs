@@ -1,4 +1,4 @@
-import jasmine, { addExtraReport } from './jasmine';
+import jasmine, { addExtraReport } from './jasmine.mjs';
 import { readdirSync, writeSync, chmodSync, constants as FS_MODES, createReadStream } from 'fs';
 import { join as joinPath } from 'path';
 import { createInterface as createLineReader } from 'readline';

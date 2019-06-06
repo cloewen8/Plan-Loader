@@ -1,16 +1,16 @@
-import jasmine from './jasmine';
+import jasmine from './jasmine.mjs';
 
-import { gather as gatherExamples, define as defineDocs } from './examplesSpec';
+import { gather as gatherExamples, define as defineDocs } from './examplesSpec.mjs';
 Promise.all([
 	gatherExamples(`${process.cwd()}/`),
 	gatherExamples(`${process.cwd()}/tutorials/`),
-	import('./utilsSpec'),
-	import('./errorHandlingSpec'),
-	import('./resolveSpec'),
-	import('./executeSpec'),
-	import('./staticResourcesSpec'),
-	import('./dynamicResourcesSpec'),
-	import('./eventsSpec')
+	import('./utilsSpec.mjs'),
+	import('./errorHandlingSpec.mjs'),
+	import('./resolveSpec.mjs'),
+	import('./executeSpec.mjs'),
+	import('./staticResourcesSpec.mjs'),
+	import('./dynamicResourcesSpec.mjs'),
+	import('./eventsSpec.mjs')
 ]).then(() => {
 	defineDocs();
 

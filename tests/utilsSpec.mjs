@@ -1,4 +1,4 @@
-import jasmine, { getRandString } from './jasmine';
+import jasmine, { getRandString } from './jasmine.mjs';
 import { filterPlans } from '../lib/index.mjs';
 import { throwError } from '../lib/util.mjs';
 

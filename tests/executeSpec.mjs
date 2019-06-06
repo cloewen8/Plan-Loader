@@ -1,4 +1,4 @@
-import jasmine from './jasmine';
+import jasmine from './jasmine.mjs';
 import { promisify } from 'util';
 import { execute, mode } from '../lib/index.mjs';
 

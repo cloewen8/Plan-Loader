@@ -1,4 +1,4 @@
-import jasmine from './jasmine';
+import jasmine from './jasmine.mjs';
 import { resolve, expandPath, setResource } from '../lib/index.mjs';
 
 const { describe, it, expect } = jasmine.env;

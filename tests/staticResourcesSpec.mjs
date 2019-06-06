@@ -1,4 +1,4 @@
-import jasmine, { getRandInt, getRandString } from './jasmine';
+import jasmine, { getRandInt, getRandString } from './jasmine.mjs';
 import { setResource, execute } from '../lib/index.mjs';
 
 const { describe, it, expect } = jasmine.env;

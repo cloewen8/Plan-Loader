@@ -8,7 +8,7 @@
   },
   "scripts": {
     "test": "node --experimental-modules tests/run.mjs",
-    "prepare": "node node_modules\\allow-require-me\\allow-require-me.js add",
+    "postinstall": "node node_modules\\allow-require-me\\allow-require-me.js add",
     "lint": "eslint --ext js,mjs,jsdoc .",
     "fix": "eslint --ext js,mjs,jsdoc --fix .",
     "docs": "npx jsdoc -c jsdoc.json && start docs/tutorial-GettingStarted.html"
@@ -29,7 +29,6 @@
   },
   "homepage": "https://github.com/cloewen8/Plan-Loader#readme",
   "devDependencies": {
-    "allow-require-me": "^1.0.0",
     "babel-eslint": "~10.0.1",
     "eslint": "~5.16.0",
     "eslint-plugin-jsdoc": "~4.4.0",
@@ -41,6 +40,7 @@
     "tmp": "0.0.33"
   },
   "dependencies": {
-    "enum": "~2.5.0"
+    "enum": "~2.5.0",
+    "allow-require-me": "^1.0.0"
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "plan-loader",
-  "version": "8.8.1",
+  "version": "8.8.2",
   "description": "A loader based on plans.",
   "type": "module",
   "main": "lib/index.mjs",

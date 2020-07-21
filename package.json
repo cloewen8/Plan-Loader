@@ -1,13 +1,14 @@
 {
   "name": "plan-loader",
-  "version": "8.7.0",
+  "version": "8.8.0",
   "description": "A loader based on plans.",
+  "type": "module",
   "main": "lib/index.mjs",
   "engines": {
     "node": ">= 10.12.0"
   },
   "scripts": {
-    "test": "node --experimental-modules tests/run.mjs",
+    "test": "node --experimental-json-modules tests/run.mjs",
     "postinstall": "node node_modules/allow-require-me/allow-require-me.js add && node node_modules\\allow-require-me\\allow-require-me.js add",
     "lint": "eslint --ext js,mjs,jsdoc .",
     "fix": "eslint --ext js,mjs,jsdoc --fix .",
@@ -29,14 +30,13 @@
   },
   "homepage": "https://github.com/cloewen8/Plan-Loader#readme",
   "devDependencies": {
-    "babel-eslint": "~10.0.1",
-    "eslint": "~5.16.0",
-    "eslint-plugin-jsdoc": "~14.1.0",
-    "eslint-plugin-json": "~1.2.0",
-    "eslint-plugin-no-for-each": "~0.1.14",
+    "babel-eslint": "~10.1.0",
+    "eslint": "~7.4.0",
+    "eslint-plugin-jsdoc": "~30.0.3",
+    "eslint-plugin-json": "~2.1.1",
     "eslint-plugin-promise": "~3.8.0",
     "jasmine": "~3.2.0",
-    "jsdoc": "^3.6.2",
+    "jsdoc": "~3.6.4",
     "tmp": "0.0.33"
   },
   "dependencies": {

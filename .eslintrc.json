@@ -12,7 +12,6 @@
 	"plugins": [
 		"json",
 		"promise",
-		"no-for-each",
 		"jsdoc"
 	],
 	"globals": {
@@ -30,8 +29,6 @@
 		"quotes": ["error", "single"],
 		"semi": ["error", "always"],
 		"arrow-parens": ["error", "always"],
-		"no-for-each/no-for-each": "error",
-		"no-for-each/no-for-in": "error",
 		"promise/no-return-wrap": "error",
 		"promise/param-names": "error",
 		"promise/catch-or-return": "off",
@@ -53,7 +50,7 @@
 		"no-var": "error"
 	},
 	"overrides": [{
-		"files": ["*.md", "test-*.mjs", "examples/**/*"],
+		"files": ["*.mjs", "*.jsdoc", "*.md", "test-*.mjs", "examples/**/*"],
 		"rules": {
 			"no-unused-labels": "off",
 			"semi": "off",

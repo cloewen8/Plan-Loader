@@ -41,6 +41,6 @@
   },
   "dependencies": {
     "enum": "~2.5.0",
-    "allow-require-me": "^1.0.0"
+    "allow-require-me": "~1.0.0"
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "plan-loader",
-  "version": "8.8.2",
+  "version": "8.8.3",
   "description": "A loader based on plans.",
   "type": "module",
   "main": "lib/index.mjs",
@@ -36,7 +36,7 @@
     "eslint-plugin-json": "~2.1.1",
     "eslint-plugin-promise": "~3.8.0",
     "jasmine": "~3.2.0",
-    "jsdoc": "~3.6.4",
+    "jsdoc": "~3.6.6",
     "tmp": "~0.1.0"
   },
   "dependencies": {

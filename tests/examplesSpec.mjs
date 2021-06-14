@@ -13,11 +13,13 @@ const { CLIEngine } = ESLint;
 let lintCLI = new CLIEngine();
 /**
  * If lint results are being reported.
+ *
  * @ignore
  */
 let reportingLint = false;
 /**
  * Results from linting tests.
+ *
  * @ignore
  */
 let lintResults;
@@ -33,7 +35,7 @@ let lintResults;
 /**
  * @typedef {object} ExampleMetadata
  * @property {?boolean} ignore If the example should not be saved.
- * @property {?Object.<string, string[]|true>} import Modules that are to be imported.
+ * @property {?object.<string, string[]|true>} import Modules that are to be imported.
  * The key is the name of the module, and the value is an array of named exports.
  * If the value is `true`, everything from the module is imported.
  * @example
@@ -57,6 +59,7 @@ let lintResults;
 
 /**
  * A list of files to test.
+ *
  * @type {File[]}
  * @ignore
  */
@@ -64,6 +67,7 @@ let files = [];
 
 /**
  * Matches an md file name (with only numbers and letters).
+ *
  * @ignore
  */
 const FILE_NAME = /([a-zA-Z0-9]+?)\.md$/;

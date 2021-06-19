@@ -5,7 +5,6 @@ and more.
 
 ## Plan
 The most basic plan contains an action to `execute`.
-<!-- { "import": { "plan-loader": ["execute"] } } -->
 ```js
 execute({
 	execute: () => {
@@ -18,7 +17,6 @@ Hello world!
 ```
 
 A plan may also contain other `plans` to execute afterwards.
-<!-- { "import": { "plan-loader": ["execute"] } } -->
 ```js
 execute({
 	execute: () => {
@@ -54,7 +52,6 @@ Hello!
 
 #### Serial Mode
 If plans rely on each other (such as to share an object), you can set the parent plan to run `serial`ly. Meaning each plan must finish before the next plan executes.
-<!-- { "import": { "plan-loader": ["execute"] } } -->
 ```js
 execute({
 	mode: 'Serial',
@@ -82,7 +79,6 @@ Hey!
 ```
 
 If setting the parent plan to be serial is not an option (too inefficient), you may also create a serial plan inside a parallel plan.
-<!-- { "import": { "plan-loader": ["execute"] } } -->
 ```js
 execute({
 	execute: () => {
@@ -115,7 +111,6 @@ Hey!
 
 #### Custom Mode
 You may also choose to execute associated plans yourself (or not at all).
-<!-- { "import": { "plan-loader": ["execute"] } } -->
 ```js
 execute({
 	mode: 'Custom',
@@ -145,8 +140,7 @@ Hello!
 ### External plans
 If a plan is a string, the plan resolver will automatically attempt to import the plan.
 <!-- Ignored due to a bug with plan resolution. See, Relative Path Bug. -->
-<!-- { "ignore": true, "import": { "plan-loader": ["execute"] } } -->
-```js
+```js ignore=true
 execute({
 	plans: [
 		'examples/greetings/hello',
@@ -187,7 +181,6 @@ The default export will be used.
 Due to missing functionality in Node.js, relative paths to plans can not be resolved. This limitation is known and will be fixed at a later date.
 
 As a temporary fix, you can use the exported `expandPath` function with `import.meta.url`:
-<!-- { "import": { "plan-loader": ["execute", "expandPath"] } } -->
 ```js
 execute({
 	plans: [

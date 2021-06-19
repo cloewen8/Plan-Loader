@@ -5,14 +5,12 @@ A static resource is any value that should exist for the entire duration of the 
 
 ### Setting a Static Resource
 A static resource may be set by calling the exported `setResource` function.
-<!-- { "import": { "plan-loader": ["setResource"] } } -->
 ```js
 setResource('greeting', 'Hello')
 ```
 
 ### Including Static Resources
 To use a set static resource, include it's key in an `include` array:
-<!-- { "import": { "plan-loader": ["setResource", "execute"] } } -->
 ```js
 // From earlier...
 setResource('greeting', 'Hello')
@@ -30,7 +28,6 @@ Hello
 
 ## Dynamic Resources
 Dynamic resources are values passed to the executor. They are automatically passed to plans after static resources.
-<!-- { "import": { "plan-loader": ["execute"] } } -->
 ```js
 execute({
 	execute: (name) => {

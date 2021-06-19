@@ -1,16 +1,16 @@
 import jasmine, { addExtraReport } from './jasmine.mjs';
-import { readdirSync, writeSync, chmodSync, constants as FS_MODES, createReadStream } from 'fs';
+import { readdirSync, writeSync, chmodSync, constants as FS_MODES } from 'fs';
 import { join as joinPath } from 'path';
-import { createInterface as createLineReader } from 'readline';
+import codeBlocks from 'code-blocks';
 import tmp from 'tmp';
 import { exec, execSync } from 'child_process';
-import ESLint from 'eslint';
+import ESLintModule from 'eslint';
 
 const tmpFile = tmp.fileSync;
 const { describe, it, beforeAll, afterAll, expect, fail } = jasmine.env;
-const { CLIEngine } = ESLint;
+const { ESLint } = ESLintModule;
 
-let lintCLI = new CLIEngine();
+let esLint = new ESLint();
 /**
  * If lint results are being reported.
  *
@@ -25,7 +25,7 @@ let reportingLint = false;
 let lintResults;
 
 /**
- * @typedef {object} File
+ * @typedef {object} MarkdownFile
  * @property {string} name The name of the file.
  * @property {string} path A full path to the file.
  * @property {Example[]} examples All examples.
@@ -33,26 +33,11 @@ let lintResults;
  */
 
 /**
- * @typedef {object} ExampleMetadata
- * @property {?boolean} ignore If the example should not be saved.
- * @property {?object.<string, string[]|true>} import Modules that are to be imported.
- * The key is the name of the module, and the value is an array of named exports.
- * If the value is `true`, everything from the module is imported.
- * @example
- * <!-- { "ignore": true } -->
- * ```js
- * ```
- * @ignore
- */
-
-/**
  * @typedef {object} Example
  * @property {string} name A name to identify the example.
  * @property {string} code The code portion.
- * @property {string} prepend Code to prepend while testing.
- * @property {number} codeOffset The line that the code starts on.
- * @property {?string} output The expected output.
- * @property {?ExampleMetadata} metadata Additional information.
+ * @property {number} codeStart The line that the code starts on.
+ * @property {string} output The expected output.
  * @todo Add a line offset for linting results.
  * @ignore
  */
@@ -60,7 +45,7 @@ let lintResults;
 /**
  * A list of files to test.
  *
- * @type {File[]}
+ * @type {MarkdownFile[]}
  * @ignore
  */
 let files = [];
@@ -71,172 +56,46 @@ let files = [];
  * @ignore
  */
 const FILE_NAME = /([a-zA-Z0-9]+?)\.md$/;
-const METADATA = /<!--(.+)-->/;
-
-/**
- * A generator that iterates through each line of a stream.
- *
- * If next returns `true`, the previous line will be yielded.
- *
- * @param {ReadStream} stream
- * @ignore
- */
-async function* genLines(stream) {
-	let getLast;
-	let num = 0;
-	let lastLine = '';
-	for await (let line of createLineReader(stream)) {
-		getLast = yield { line: line, num: ++num };
-		if (getLast)
-			yield lastLine;
-		lastLine = line;
-	}
-}
-
-async function getOutput(iter) {
-	let output = [];
-	let line;
-	let end;
-	do {
-		line = await iter.next();
-		if (line.done)
-			throw new Error('Unable to locate end of output!');
-		end = line.value.line.endsWith('```');
-		if (!end)
-			output.push(line.value.line);
-	} while (!end);
-	return output.join('\n');
-}
-
-/**
- * Validates the metadata.
- *
- * @param {ExampleMetadata} metadata
- * @throws If `ignore` is not a boolean.
- * @throws If `import` is not an object.
- * @throws If an `import` key is not a string.
- * @throws If an `import` value is not `true` or an array.
- * @throws If an `import` value name is not a string.
- * @ignore
- */
-function validateMetadata(metadata) {
-	if (metadata.ignore !== undefined && typeof metadata.ignore !== 'boolean')
-		throw new Error('ignore must be a boolean!');
-	if (metadata.import !== undefined) {
-		if (typeof metadata.import !== 'object')
-			throw new Error('import must be an object!');
-		for (let [ name, exports ] of Object.entries(metadata.import)) {
-			if (typeof name !== 'string')
-				throw new Error('import keys must be strings!');
-			if (exports !== true) {
-				if (typeof exports !== 'object') {
-					throw new Error('import value must be a named export string!');
-				} else {
-					for (let exp of Object.values(exports))
-						if (typeof exp !== 'string')
-							throw new Error('import value names must be a string!');
-				}
-			}
-		}
-	}
-}
-
-/**
- * Parses the metadata into the example.
- *
- * @param {ExampleMetadata} metadata
- * @param {Example} example
- * @ignore
- */
-function parseMetadata(metadata, example) {
-	let prependLines = [];
-	// Construct imports.
-	if (metadata.import !== undefined) {
-		for (let [ module, names ] of Object.entries(metadata.import)) {
-			let imports = names === true ? '*' : `{ ${names.join(', ')} }`;
-			prependLines.push(`import ${imports} from '${module}'`);
-		}
-	}
-	example.prepend = prependLines.join('\n') + '\n\n';
-}
-
-/**
- * Gets an example.
- *
- * @param {string} name A name for the example.
- * @param {string} path The file containing the example.
- * @param {number} lineNumber The offset of the iterator.
- * @param {AsyncIterableIterator<string>} iter The iterator.
- * @ignore
- */
-async function getExample(name, path, lineNumber, iter) {
-	/** @type {Example} */
-	let example = { name: name, code: [], prepend: '', codeOffset: lineNumber, output: null, metadata: null };
-	let line;
-	let end;
-
-	let metadata = await iter.next(true);
-	try {
-		metadata = METADATA.exec(metadata.value);
-		if (metadata != null) {
-			example.metadata = JSON.parse(metadata[1]);
-			validateMetadata(example.metadata);
-			parseMetadata(example.metadata, example);
-		}
-	} catch (err) {
-		console.warn(`Ignoring invalid metadata (${path}: ${name})!`);
-		console.warn(err.stack);
-	} finally {
-		if (example.metadata === null)
-			example.metadata = {};
-	}
-
-	do {
-		line = await iter.next();
-		if (line.done)
-			throw new Error('Unable to locate the end of example!');
-		end = line.value.line.endsWith('```');
-		if (!end) {
-			example.code.push(line.value.line);
-		} else {
-			// Collect output.
-			try {
-				line = await iter.next();
-				if (!line.done && line.value.line.startsWith('```text')) {
-					example.output = await getOutput(iter);
-				}
-			// eslint-disable-next-line no-empty
-			} catch (err) {
-				console.warn('Unable to get example output!');
-				console.warn(err.stack);
-			}
-		}
-	} while (!end);
-	example.code = example.code.join('\n');
-	return example;
-}
 
 /**
  * Gets all examples from markdown.
  *
- * @param {ReadStream} stream The stream containing markdown source.
- * @param {string} path The file containing the markdown.
- * @returns {File}
+ * @param {string} file The file containing the markdown.
+ * @returns {Example[]}
  * @ignore
  */
-async function getExamples(stream, path) {
-	let iter = genLines(stream);
+async function getExamples(file) {
 	let examples = [];
-	let example;
-	for await (let { line, num } of iter) {
-		if (line.startsWith('```js')) {
-			try {
-				example = await getExample(`Example ${examples.length + 1}`, path, num, iter);
-				if (!example.metadata.ignore)
+	let example = null;
+	let codeEnd;
+	// Each code block is only considered an example if:
+	// - It is javascript.
+	// - There is no `ignore=true` info string.
+	//   Example:
+	//   ```js ignore=true
+	//   ```
+	// - Is immediately followed by a text code block.
+	// - And both code blocks are at the start of the line.
+	const blocks = await codeBlocks.fromFile(file);
+	for (let { value, lang, position, source, info } of blocks) {
+		if (position.start.column === 1) {
+			// Get example code (start the object)
+			if (lang === 'js' && info.ignore !== 'true') {
+				example = {
+					name: 'Example ' + (examples.length + 1),
+					code: value,
+					codeStart: source.line,
+					output: null
+				};
+				codeEnd = position.end.line;
+			// Get example output (finish object and push)
+			} else if (example !== null) {
+				// Only add it if it is valid
+				if (lang === 'text' && position.start.line === codeEnd + 1) {
+					example.output = value;
 					examples.push(example);
-			} catch (err) {
-				console.warn('Ignoring invalid examples file.');
-				console.warn(err.stack);
+				}
+				example = null;
 			}
 		}
 	}
@@ -252,22 +111,24 @@ async function getExamples(stream, path) {
  */
 export async function gather(folder) {
 	let path;
+
 	for (let filename of readdirSync(folder)) {
 		if (filename.endsWith('.md')) {
 			path = joinPath(folder, filename);
 			files.push({
 				name: filename.match(FILE_NAME)[1],
 				path: path,
-				examples: await getExamples(createReadStream(folder + filename), path)
+				examples: await getExamples(folder + filename, path)
 			});
 		}
 	}
 	if (!reportingLint) {
 		reportingLint = true;
+		const formatter = await esLint.loadFormatter();
 		addExtraReport(() => {
 			if (lintResults.length > 0) {
 				console.log('Linting failed!');
-				console.log(lintCLI.getFormatter()(lintResults));
+				console.log(formatter.format(lintResults));
 			}
 		});
 	}
@@ -275,15 +136,7 @@ export async function gather(folder) {
 
 export function define() {
 	describe('documentation', () => {
-		beforeAll(async (done) => {
-			lintResults = [];
-			let fullName;
-			for (let name of (await import('../.eslintrc.json')).default.plugins) {
-				fullName = 'eslint-plugin-' + name;
-				lintCLI.addPlugin(fullName, (await import(fullName)).default);
-			}
-			done();
-		});
+		beforeAll(() => lintResults = []);
 
 		for (let file of files) {
 			describe(`${file.name} file`, () => {
@@ -292,7 +145,18 @@ export function define() {
 						let tmp;
 						beforeAll(() => {
 							tmp = tmpFile({ dir: process.cwd(), prefix: 'test-', postfix: '.mjs' });
-							writeSync(tmp.fd, `// ${file.path}: ${example.name}\n\n${example.prepend}${example.code}`);
+							// Append the file path and example name.
+							let code = `// ${file.path}: ${example.name}\n\n`;
+							if (!/import.+from\s*['"]plan-loader['"]/.test(example.code)) {
+								// Append the plan-loader.
+								code += '// eslint-disable-next-line no-unused-vars\n';
+								// eslint-disable-next-line quotes
+								code += "import { expandPath, filterPlans, handleError, resolve, execute, executePlans, mode, setResource } from 'plan-loader'\n\n"
+							}
+							// Append the example code.
+							code += example.code;
+							// Write the file.
+							writeSync(tmp.fd, code);
 							if (FS_MODES.S_IRUSR !== undefined) {
 								// Prevent tests from modifying the file.
 								chmodSync(joinPath(process.cwd(), tmp.name),
@@ -301,13 +165,13 @@ export function define() {
 						});
 
 						it('is linted', () => {
-							let output = lintCLI.executeOnText(example.prepend + example.code, file.path);
+							let output = esLint.lintFiles(tmp.name);
 							if (output.errorCount > 0) {
 								for (let result of output.results) {
 									// Include the example number for more context.
 									result.filePath = `${file.path}: ${example.name}`;
 									result.messages = result.messages.map((message) => {
-										message.line = message.line + example.codeOffset;
+										message.line = message.line + example.codeStart;
 										// Not sure if I can exclude this.
 										message.fix = null;
 										return message;
@@ -344,9 +208,7 @@ export function define() {
 							});
 						}
 
-						afterAll(() => {
-							tmp.removeCallback();
-						});
+						//afterAll(() => tmp.removeCallback());
 					});
 				}
 			});

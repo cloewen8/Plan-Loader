@@ -208,7 +208,7 @@ export function define() {
 							});
 						}
 
-						//afterAll(() => tmp.removeCallback());
+						afterAll(() => tmp.removeCallback());
 					});
 				}
 			});

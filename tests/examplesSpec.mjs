@@ -91,7 +91,7 @@ async function getExamples(file) {
 			// Get example output (finish object and push)
 			} else if (example !== null) {
 				// Only add it if it is valid
-				if (lang === 'text' && position.start.line === codeEnd + 1) {
+				if ((lang == null || lang === 'text') && position.start.line === codeEnd + 1) {
 					example.output = value;
 					examples.push(example);
 				}

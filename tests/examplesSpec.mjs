@@ -186,7 +186,7 @@ export function define() {
 						});
 
 						it('does not throw', (done) => {
-							let child = exec(`node --experimental-modules ${tmp.name}`);
+							let child = exec(`node ${tmp.name}`);
 							child.on('close', () => {
 								done();
 							});
@@ -200,7 +200,7 @@ export function define() {
 
 						if (example.output != null) {
 							it('outputs the expected result', (done) => {
-								let result = execSync(`node --experimental-modules --no-warnings ${tmp.name}`);
+								let result = execSync(`node --no-warnings ${tmp.name}`);
 								if (result instanceof Buffer)
 									result = result.toString('utf8');
 								expect(result.trim()).toBe(example.output);

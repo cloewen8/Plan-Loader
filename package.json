@@ -1,11 +1,11 @@
 {
   "name": "plan-loader",
-  "version": "8.9.4",
+  "version": "8.9.5",
   "description": "A loader based on plans.",
   "type": "module",
   "main": "lib/index.mjs",
   "engines": {
-    "node": ">= 10.12.0"
+    "node": ">= 13.2.0"
   },
   "scripts": {
     "test": "node --experimental-json-modules tests/run.mjs",

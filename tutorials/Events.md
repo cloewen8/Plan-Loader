@@ -15,7 +15,7 @@ execute({
 	plans: [
 		{
 			execute: (arg) => {
-				console.log(`recieved ${arg}`)
+				console.log(`received ${arg}`)
 			}
 		}
 	]
@@ -33,7 +33,7 @@ const emitter = new EventEmitter()
 emitter.emit('custom', 1)
 ```
 ```text
-recieved 1
+received 1
 ```
 
 - Any object that contains a `once` function (or `on` if repeating is needed) qualifies as an emitter.
@@ -55,7 +55,7 @@ execute({
 	plans: [
 		{
 			execute: (arg) => {
-				console.log(`recieved ${arg}`);
+				console.log(`received ${arg}`);
 			}
 		}
 	]
@@ -64,7 +64,7 @@ execute({
 })
 ```
 ```text
-recieved 1
+received 1
 ```
 
 ## Repeating Events
@@ -80,7 +80,7 @@ execute({
 	plans: [
 		{
 			execute: (arg) => {
-				console.log(`recieved ${arg}`);
+				console.log(`received ${arg}`);
 			}
 		}
 	]
@@ -90,6 +90,6 @@ execute({
 })
 ```
 ```text
-recieved 1
-recieved 2
+received 1
+received 2
 ```

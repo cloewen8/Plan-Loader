@@ -30,16 +30,16 @@
   },
   "homepage": "https://github.com/cloewen8/Plan-Loader#readme",
   "devDependencies": {
+    "allow-require-me": "~1.0.0",
     "babel-eslint": "~10.1.0",
-    "code-blocks": "^1.1.0",
-    "eslint": "~7.4.0",
+    "eslint": "~8.1.0",
     "eslint-plugin-jsdoc": "~30.0.3",
     "eslint-plugin-json": "~2.1.1",
     "eslint-plugin-promise": "~3.8.0",
     "jasmine": "~3.2.0",
     "jsdoc": "~3.6.7",
-    "tmp": "~0.1.0",
-    "allow-require-me": "~1.0.0"
+    "remark": "^14.0.1",
+    "tmp": "~0.1.0"
   },
   "dependencies": {
     "enum": "~2.5.0"

@@ -32,7 +32,6 @@
   "devDependencies": {
     "allow-require-me": "~1.0.0",
     "babel-eslint": "~10.1.0",
-    "code-blocks": "~1.1.0",
     "eslint": "~8.1.0",
     "eslint-plugin-jsdoc": "~30.0.3",
     "eslint-plugin-json": "~2.1.1",

@@ -7,8 +7,6 @@ import tmp from 'tmp';
 import { exec, execSync } from 'child_process';
 import ESLintModule from 'eslint';
 
-import { diffChars } from 'diff';
-
 const tmpFile = tmp.fileSync;
 const { describe, it, beforeAll, afterAll, expect, fail } = jasmine.env;
 const { ESLint } = ESLintModule;
@@ -210,7 +208,7 @@ export function define() {
 							});
 						}
 
-						//afterAll(() => tmp.removeCallback());
+						afterAll(() => tmp.removeCallback());
 					});
 				}
 			});

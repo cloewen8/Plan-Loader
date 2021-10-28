@@ -7,6 +7,8 @@ import tmp from 'tmp';
 import { exec, execSync } from 'child_process';
 import ESLintModule from 'eslint';
 
+import { diffChars } from 'diff';
+
 const tmpFile = tmp.fileSync;
 const { describe, it, beforeAll, afterAll, expect, fail } = jasmine.env;
 const { ESLint } = ESLintModule;
@@ -77,7 +79,6 @@ async function getExamples(file) {
 	//   ```
 	// - Is immediately followed by a text code block.
 	// - And both code blocks are at the start of the line.
-
 	const blocks = remark.parse(await promisify(readFile)(file, 'utf8')).children.filter((child) => child.type === 'code');
 	for (let { value, lang, position, meta } of blocks) {
 		if (position.start.column === 1) {
@@ -94,10 +95,9 @@ async function getExamples(file) {
 			} else if (example !== null) {
 				// Only add it if it is valid
 				if ((lang == null || lang === 'text') && position.start.line === codeEnd + 1) {
-					example.output = value;
+					example.output = value.replace(/\r/g, '');
 					examples.push(example);
 				}
-				console.log(example);
 				example = null;
 			}
 		}
@@ -205,13 +205,12 @@ export function define() {
 								let result = execSync(`node --experimental-modules --no-warnings ${tmp.name}`);
 								if (result instanceof Buffer)
 									result = result.toString('utf8');
-								result = result.trim();
-								expect(result).toBe(example.output);
+								expect(result.trim()).toBe(example.output);
 								done();
 							});
 						}
 
-						afterAll(() => tmp.removeCallback());
+						//afterAll(() => tmp.removeCallback());
 					});
 				}
 			});

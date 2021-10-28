@@ -1,7 +1,8 @@
 import jasmine, { addExtraReport } from './jasmine.mjs';
-import { readdirSync, writeSync, chmodSync, constants as FS_MODES } from 'fs';
+import { readdirSync, writeSync, chmodSync, constants as FS_MODES, readFile } from 'fs';
+import { promisify } from 'util';
 import { join as joinPath } from 'path';
-import codeBlocks from 'code-blocks';
+import { remark } from 'remark'
 import tmp from 'tmp';
 import { exec, execSync } from 'child_process';
 import ESLintModule from 'eslint';
@@ -76,15 +77,16 @@ async function getExamples(file) {
 	//   ```
 	// - Is immediately followed by a text code block.
 	// - And both code blocks are at the start of the line.
-	const blocks = await codeBlocks.fromFile(file);
-	for (let { value, lang, position, source, info } of blocks) {
+
+	const blocks = remark.parse(await promisify(readFile)(file, 'utf8')).children.filter((child) => child.type === 'code');
+	for (let { value, lang, position, meta } of blocks) {
 		if (position.start.column === 1) {
 			// Get example code (start the object)
-			if (lang === 'js' && info.ignore !== 'true') {
+			if (lang === 'js' && (meta == null || meta.ignore !== 'true')) {
 				example = {
 					name: 'Example ' + (examples.length + 1),
 					code: value,
-					codeStart: source.line,
+					codeStart: position.start.line,
 					output: null
 				};
 				codeEnd = position.end.line;
@@ -95,6 +97,7 @@ async function getExamples(file) {
 					example.output = value;
 					examples.push(example);
 				}
+				console.log(example);
 				example = null;
 			}
 		}

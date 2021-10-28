@@ -81,7 +81,7 @@ async function getExamples(file) {
 	for (let { value, lang, position, meta } of blocks) {
 		if (position.start.column === 1) {
 			// Get example code (start the object)
-			if (lang === 'js' && (meta == null || meta.ignore !== 'true')) {
+			if (lang === 'js' && (meta == null || !/\bignore\b/.test(meta))) {
 				example = {
 					name: 'Example ' + (examples.length + 1),
 					code: value,

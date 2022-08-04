@@ -160,8 +160,7 @@ export function define() {
 							writeSync(tmp.fd, code);
 							if (FS_MODES.S_IRUSR !== undefined) {
 								// Prevent tests from modifying the file.
-								chmodSync(joinPath(process.cwd(), tmp.name),
-									FS_MODES.S_IRUSR);
+								chmodSync(tmp.name, FS_MODES.S_IRUSR);
 							}
 						});
 

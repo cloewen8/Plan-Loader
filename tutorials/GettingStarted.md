@@ -8,9 +8,9 @@ The most basic plan contains an action to `execute`.
 ```js
 execute({
 	execute: () => {
-		console.log('Hello world!')
+		console.log('Hello world!');
 	}
-})
+});
 ```
 ```text
 Hello world!
@@ -20,21 +20,21 @@ A plan may also contain other `plans` to execute afterwards.
 ```js
 execute({
 	execute: () => {
-		console.log('Hello world!')
+		console.log('Hello world!');
 	},
 	plans: [
 		{
 			execute: () => {
-				console.log('Hello!')
+				console.log('Hello!');
 			}
 		},
 		{
 			execute: () => {
-				console.log('Hey!')
+				console.log('Hey!');
 			}
 		}
 	]
-})
+});
 ```
 ```text
 Hello world!
@@ -56,21 +56,21 @@ If plans rely on each other (such as to share an object), you can set the parent
 execute({
 	mode: 'Serial',
 	execute: () => {
-		console.log('Hello world!')
+		console.log('Hello world!');
 	},
 	plans: [
 		{
 			execute: () => {
-				console.log('Hello!')
+				console.log('Hello!');
 			}
 		},
 		{
 			execute: () => {
-				console.log('Hey!')
+				console.log('Hey!');
 			}
 		}
 	]
-})
+});
 ```
 ```text
 Hello world!
@@ -82,7 +82,7 @@ If setting the parent plan to be serial is not an option (too inefficient), you 
 ```js
 execute({
 	execute: () => {
-		console.log('Hello world!')
+		console.log('Hello world!');
 	},
 	plans: [
 		{
@@ -90,18 +90,18 @@ execute({
 			plans: [
 				{
 					execute: () => {
-						console.log('Hello!')
+						console.log('Hello!');
 					}
 				},
 				{
 					execute: () => {
-						console.log('Hey!')
+						console.log('Hey!');
 					}
 				}
 			]
 		}
 	]
-})
+});
 ```
 ```text
 Hello world!
@@ -115,22 +115,22 @@ You may also choose to execute associated plans yourself (or not at all).
 execute({
 	mode: 'Custom',
 	execute: function() {
-		console.log('Hello world!')
-		execute(this.plans[0])
+		console.log('Hello world!');
+		execute(this.plans[0]);
 	},
 	plans: [
 		{
 			execute: () => {
-				console.log('Hello!')
+				console.log('Hello!');
 			}
 		},
 		{
 			execute: () => {
-				console.log('Hey!')
+				console.log('Hey!');
 			}
 		}
 	]
-})
+});
 ```
 ```text
 Hello world!
@@ -146,23 +146,23 @@ execute({
 		'examples/greetings/hello',
 		'examples/greetings/hey'
 	]
-})
+});
 ```
 In `examples/grttings/hello.mjs`:
 ```js
 export default {
 	execute: () => {
-		console.log('Hello!')
+		console.log('Hello!');
 	}
-}
+};
 ```
 In `examples/grttings/hey.mjs`:
 ```js
 export default {
 	execute: () => {
-		console.log('Hey!')
+		console.log('Hey!');
 	}
-}
+};
 ```
 
 ```text
@@ -187,5 +187,5 @@ execute({
 		expandPath(import.meta.url, 'examples/greetings/hello'),
 		expandPath(import.meta.url, 'examples/greetings/hey')
 	]
-})
+});
 ```

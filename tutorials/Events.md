@@ -3,23 +3,23 @@ Plans may be executed when an event is emitted.
 ## Using an Event
 In order to connect to an event, a plan must have the `event` name and `emitter`.
 ```js
-import { EventEmitter } from 'events'
-const emitter = new EventEmitter()
+import { EventEmitter } from 'events';
+const emitter = new EventEmitter();
 
 execute({
 	execute: () => {
-		console.log('connected')
+		console.log('connected');
 	},
 	event: 'custom',
 	emitter: emitter,
 	plans: [
 		{
 			execute: (arg) => {
-				console.log(`received ${arg}`)
+				console.log(`received ${arg}`);
 			}
 		}
 	]
-})
+});
 ```
 ```text
 connected
@@ -27,10 +27,10 @@ connected
 After the plan is executed
 ```js ignore=true
 // From earlier...
-import { EventEmitter } from 'events'
-const emitter = new EventEmitter()
+import { EventEmitter } from 'events';
+const emitter = new EventEmitter();
 
-emitter.emit('custom', 1)
+emitter.emit('custom', 1);
 ```
 ```text
 received 1
@@ -45,9 +45,9 @@ received 1
 ## Static Event Emitters
 If the emitter is a key to a static resource, and the resource is a valid emitter, it will be connected to.
 ```js
-import { EventEmitter } from 'events'
-const emitter = new EventEmitter()
-setResource('staticEmitter', emitter)
+import { EventEmitter } from 'events';
+const emitter = new EventEmitter();
+setResource('staticEmitter', emitter);
 
 execute({
 	event: 'custom',
@@ -60,8 +60,8 @@ execute({
 		}
 	]
 }).then(() => {
-	emitter.emit('custom', 1)
-})
+	emitter.emit('custom', 1);
+});
 ```
 ```text
 received 1
@@ -70,8 +70,8 @@ received 1
 ## Repeating Events
 You may optionally set plans to `repeat` if an event may be emitted multiple times.
 ```js
-import { EventEmitter } from 'events'
-const emitter = new EventEmitter()
+import { EventEmitter } from 'events';
+const emitter = new EventEmitter();
 
 execute({
 	event: 'custom',
@@ -85,9 +85,9 @@ execute({
 		}
 	]
 }).then(() => {
-	emitter.emit('custom', 1)
-	emitter.emit('custom', 2)
-})
+	emitter.emit('custom', 1);
+	emitter.emit('custom', 2);
+});
 ```
 ```text
 received 1

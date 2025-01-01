@@ -2,7 +2,7 @@ import jasmine, { addExtraReport } from './jasmine.mjs';
 import { readdirSync, writeSync, chmodSync, constants as FS_MODES, readFile } from 'fs';
 import { promisify } from 'util';
 import { join as joinPath } from 'path';
-import { remark } from 'remark'
+import { remark } from 'remark';
 import tmp from 'tmp';
 import { exec, execSync } from 'child_process';
 import ESLintModule from 'eslint';
@@ -152,7 +152,7 @@ export function define() {
 								// Append the plan-loader.
 								code += '// eslint-disable-next-line no-unused-vars\n';
 								// eslint-disable-next-line quotes
-								code += "import { expandPath, filterPlans, handleError, resolve, execute, executePlans, mode, setResource } from 'plan-loader'\n\n"
+								code += "import { expandPath, filterPlans, handleError, resolve, execute, executePlans, mode, setResource } from 'plan-loader'\n\n";
 							}
 							// Append the example code.
 							code += example.code;

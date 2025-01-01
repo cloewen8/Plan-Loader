@@ -1,5 +1,5 @@
 export default {
 	execute: () => {
-		console.log('Hello!')
+		console.log('Hello!');
 	}
-}
+};

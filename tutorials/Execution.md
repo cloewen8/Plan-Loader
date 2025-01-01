@@ -3,12 +3,12 @@ Occasionally it may be desirable to take control of the execution process of pla
 execute({
 	mode: 'Custom',
 	execute: function() {
-		executePlans('Parallel', this.plans)
+		executePlans('Parallel', this.plans);
 	},
 	plans: [
 		{ execute: () => console.log('Hello world!') }
 	]
-})
+});
 ```
 ```text
 Hello world!
@@ -19,17 +19,17 @@ There are 2 ways to execute plans. By calling the exported `execute` function wi
 ```js
 execute({
 	execute: () => {
-		console.log('Hello world!')
+		console.log('Hello world!');
 	}
-})
+});
 
 executePlans('Serial', [
 	{
 		execute: () => {
-			console.log('Hello world!')
+			console.log('Hello world!');
 		}
 	}
-])
+]);
 ```
 ```text
 Hello world!
@@ -40,17 +40,17 @@ Both of these functions can also accept dynamic resources.
 ```js
 execute({
 	execute: (name) => {
-		console.log(`Hello ${name}`)
+		console.log(`Hello ${name}`);
 	}
-}, 'Bob')
+}, 'Bob');
 
 executePlans('Serial', [
 	{
 		execute: (name) => {
-			console.log(`Hello ${name}`)
+			console.log(`Hello ${name}`);
 		}
 	}
-], 'Bob')
+], 'Bob');
 ```
 ```text
 Hello Bob
@@ -71,10 +71,10 @@ const plan = {
 		{ isFruit: false },
 		{ isFruit: true }
 	]
-}
+};
 
 executePlans('Serial',
-	filterPlans(plan, (candidate) => candidate.isFruit))
+	filterPlans(plan, (candidate) => candidate.isFruit));
 ```
 ```text
 strawberry

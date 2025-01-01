@@ -18,16 +18,16 @@ Using the resolver manually should be used when:
 The `resolve`r is a function that is exported. It can be called with a plan (string or object). If the plan is invalid or can not be resolved, an error is thrown.
 ```js
 async function log(plan, indent) {
-	let resolved = await resolve(plan)
-	console.log(indent + resolved.id)
+	let resolved = await resolve(plan);
+	console.log(indent + resolved.id);
 	if (resolved.plans != null) {
 		for (let subPlan of resolved.plans)
-			await log(subPlan, indent + '.')
+			await log(subPlan, indent + '.');
 	}
 }
 
 log(expandPath(import.meta.url, 'examples/mainPlan.mjs'), '').catch((err) =>
-	console.log('Error: ' + err.message))
+	console.log('Error: ' + err.message));
 ```
 ```text
 plan1
@@ -56,5 +56,5 @@ export default {
 			plans: true
 		}
 	]
-}
+};
 ```

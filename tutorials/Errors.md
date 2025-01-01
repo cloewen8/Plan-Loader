@@ -8,12 +8,12 @@ In order to handle an error, the plan needs to implement a `handleError` functio
 ```js
 execute({
 	execute: () => {
-		throw new Error('Something bad!')
+		throw new Error('Something bad!');
 	},
 	handleError: (err) => {
-		console.log(err.message)
+		console.log(err.message);
 	}
-})
+});
 ```
 ```text
 Something bad!
@@ -25,17 +25,17 @@ If an error is thrown from `handleError` or the function does not exist, it will
 execute({
 	plans: [
 		{
-			execute: () => { throw new Error('Oops!') },
+			execute: () => { throw new Error('Oops!'); },
 			handleError: (err) => {
-				err.message = 'Plans error: ' + err.message
-				throw err
+				err.message = 'Plans error: ' + err.message;
+				throw err;
 			}
 		}
 	],
 	handleError: (err) => {
-		console.log(err.message)
+		console.log(err.message);
 	}
-})
+});
 ```
 ```text
 Plans error: Oops!
@@ -44,24 +44,24 @@ Plans error: Oops!
 ## Event Plan Errors
 Errors thrown from plans executed using an event do not currently propagate past the parent plan. This is due to how the associated plans execute on a different stack.
 ```js
-import { EventEmitter } from 'events'
-const emitter = new EventEmitter()
+import { EventEmitter } from 'events';
+const emitter = new EventEmitter();
 
 execute({
 	plans: [{
 		event: 'event',
 		emitter: emitter,
 		plans: [
-			{ execute: () => { throw new Error() } }
+			{ execute: () => { throw new Error(); } }
 		],
 		handleError: () => {
-			console.log('depth 1')
+			console.log('depth 1');
 		}
 	}],
 	handleError: () => {
-		console.log('depth 2')
+		console.log('depth 2');
 	}
-}).then(() => emitter.emit('event'))
+}).then(() => emitter.emit('event'));
 ```
 ```text
 depth 1

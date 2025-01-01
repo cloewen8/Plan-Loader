@@ -6,21 +6,21 @@ A static resource is any value that should exist for the entire duration of the 
 ### Setting a Static Resource
 A static resource may be set by calling the exported `setResource` function.
 ```js
-setResource('greeting', 'Hello')
+setResource('greeting', 'Hello');
 ```
 
 ### Including Static Resources
 To use a set static resource, include it's key in an `include` array:
 ```js
 // From earlier...
-setResource('greeting', 'Hello')
+setResource('greeting', 'Hello');
 
 execute({
 	include: ['greeting'],
 	execute: (greeting) => {
 		console.log(greeting);
 	}
-})
+});
 ```
 ```text
 Hello
@@ -36,11 +36,11 @@ execute({
 	plans: [
 		{
 			execute: (name) => {
-				console.log(`Bye ${name}`)
+				console.log(`Bye ${name}`);
 			}
 		}
 	]
-}, 'Bob')
+}, 'Bob');
 ```
 ```text
 Hello Bob

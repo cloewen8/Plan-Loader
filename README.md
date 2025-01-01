@@ -16,13 +16,13 @@ The plan loader uses objects known as plans. A plan is a set of instructions on 
 
 In order for a plan to run code, all it needs is an `execute` method, which takes 0 or more arguments.
 ```js
-import { execute } from 'plan-loader'
+import { execute } from 'plan-loader';
 
 execute({
 	execute: () => {
-		console.log('Hello world!')
+		console.log('Hello world!');
 	}
-})
+});
 ```
 ```text
 Hello world!
@@ -30,25 +30,25 @@ Hello world!
 
 A plan can also point to other plans to cover an entire project's loading needs!
 ```js
-import { execute } from 'plan-loader'
+import { execute } from 'plan-loader';
 
 execute({
 	execute: () => {
-		console.log('Hello world!')
+		console.log('Hello world!');
 	},
 	plans: [
 		{
 			execute: () => {
-				console.log('Hello galaxy!')
+				console.log('Hello galaxy!');
 			}
 		},
 		{
 			execute: () => {
-				console.log('Hello universe!')
+				console.log('Hello universe!');
 			}
 		}
 	]
-})
+});
 ```
 ```text
 Hello world!

@@ -1,3 +1,5 @@
+**Help Wanted:** Do you use my packages? Let me know at https://cjloewen.ca/contact
+
 # Plan-Loader
 A loader based on plans that chooses what, when, and in what order
 to load. Allowing for **more flexibility** with a **standard design**.

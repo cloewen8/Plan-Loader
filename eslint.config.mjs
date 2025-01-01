@@ -3,20 +3,16 @@ import globals from "globals"
 import jsonPlugin from "eslint-plugin-json"
 import promisePlugin from "eslint-plugin-promise"
 import jsdocPlugin from "eslint-plugin-jsdoc"
-import { getJsdocProcessorPlugin } from 'eslint-plugin-jsdoc/getJsdocProcessorPlugin.js'
+import markdownPlugin from "@eslint/markdown"
 
-// plugins: json, promise, jsdoc
+const exampleRules = {
+	"no-unused-labels": "off",
+	"semi": "off",
+	"no-var": "off"
+}
+
 export default [
-	eslint.configs.recommended,
-	{
-		files: ["*.mjs", "*.jsdoc", "*.md", "test-*.mjs", "examples/**/*"],
-		rules: {
-			"no-unused-labels": "off",
-			"semi": "off",
-			"no-var": "off"
-		}
-	},
-	{
+	{ // shared
 		languageOptions : {
 			ecmaVersion: 6,
 			sourceType: "module",
@@ -29,10 +25,28 @@ export default [
 		plugins: {
 			json: jsonPlugin,
 			promise: promisePlugin,
-			jsdoc: jsdocPlugin,
-			examples: getJsdocProcessorPlugin({})
-		},
-		processor: 'examples/examples',
+			jsdoc: jsdocPlugin
+		}
+	},
+	{ // tutorials (markdown)
+		files: ["**/*.md"],
+		plugins: {
+            markdown: markdownPlugin
+        },
+        language: "markdown/gfm",
+		processor: 'markdown/markdown',
+		rules: {
+			...exampleRules,
+		}
+	},
+	{ // examples
+		files: ["examples/**/*.mjs"],
+		rules: {
+			...exampleRules
+		}
+	},
+	{ // source
+		...eslint.configs.recommended,
 		rules: {
 			"max-len": ["error", { "code": 200 }],
 			"line-comment-position": ["error", "above"],

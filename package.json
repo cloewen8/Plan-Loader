@@ -30,6 +30,7 @@
   },
   "homepage": "https://github.com/cloewen8/Plan-Loader#readme",
   "devDependencies": {
+    "@eslint/markdown": "^6.2.1",
     "allow-require-me": "^1.0.0",
     "eslint": "~9.17.0",
     "eslint-plugin-jsdoc": "~50.6.1",
